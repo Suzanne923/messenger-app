@@ -5,7 +5,7 @@ import * as actions from '../actions';
 import { USER_CONNECTED, LOGOUT, VERIFY_USER } from '../events';
 import LoginForm from './loginform';
 
-const socketUrl = "http://localhost:3231";
+const socketUrl = "/";
 
 class Layout extends Component {
   constructor(props) {
