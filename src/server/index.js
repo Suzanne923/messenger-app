@@ -23,18 +23,3 @@ app.use(express.static(__dirname + '/../../build'));
 app.get('/', (req, res, next) => {
   res.sendFile(__dirname + '/../../build/index.html');
 })
-
-/* Socket setup
-const io = socket(server);
-io.on('connection', function(socket) {
-  console.log('a user connected');
-
-  socket.on('disconnect', function() {
-    console.log('user disconnected');
-  });
-
-  socket.on('send message', function(message) {
-    console.log(message);
-    io.emit('receive message', message);
-  });
-});*/

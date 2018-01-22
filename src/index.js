@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, browserHistory } from 'react-router';
 
 import App from './components/App';
 // import Layout from './components/layout';
@@ -15,8 +15,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        // indexRoute login component
-        // chatbox route
+
       </Route>
     </Router>
   </Provider>

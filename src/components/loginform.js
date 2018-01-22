@@ -13,14 +13,16 @@ export class LoginForm extends Component {
 
   renderAlert() {
     if (this.props.errorMessage) {
-      <div className="alert alert-danger">
-        <strong>Oops!</strong> {this.props.errorMessage}
-      </div>
+      return (
+        <div className="alert alert-danger">
+          <strong>Oops!</strong> {this.props.errorMessage}
+        </div>
+      );
     }
   }
 
   render() {
-    const { handleSubmit, fields: { username, password } } = this.props;
+    const { handleSubmit } = this.props;
     return (
       <div className="login">
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
