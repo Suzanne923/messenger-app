@@ -20,6 +20,9 @@ const io = socket(server);
 io.on('connection', SocketManager);
 
 app.use(express.static(__dirname + '/../../build'));
+app.get('/', (req, res, next) => {
+  res.sendFile(__dirname + '/../../build/index.html');
+})
 
 /* Socket setup
 const io = socket(server);
