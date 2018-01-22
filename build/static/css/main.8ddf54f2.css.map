@@ -1,0 +1,1 @@
+{"version":3,"sources":["style/index.css"],"names":[],"mappings":"AAAA,KACE,iBAAmB,CAGrB,OACE,gBACA,aAAe","file":"static/css/main.8ddf54f2.css","sourcesContent":["body {\n  text-align: center;\n}\n\n.login {\n  margin: 2em auto;\n  max-width: 50%;\n}\n\n\n\n// WEBPACK FOOTER //\n// ./src/style/index.css"],"sourceRoot":""}
