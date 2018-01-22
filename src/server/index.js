@@ -19,7 +19,12 @@ server.listen(port, function() {
 const io = socket(server);
 io.on('connection', SocketManager);
 
+console.log(__dirname);
 app.use(express.static(__dirname + '/../../build'));
+
+
+
+
 app.get('/', (req, res, next) => {
   res.sendFile(__dirname + '/../../build/index.html');
 })
