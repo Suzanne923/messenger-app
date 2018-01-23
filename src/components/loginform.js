@@ -2,13 +2,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import * as actions from '../actions';
-import { VERIFY_USER } from '../events';
+import { VERIFY_USER, USER_CONNECTED } from '../events';
 
 export class LoginForm extends Component {
   handleFormSubmit({ username, password }) {
     const { socket } = this.props;
-    socket.emit(VERIFY_USER, username);
-    this.props.loginUser({ username, password });
+    socket.emit(VERIFY_USER, username, this.setUser);
+  }
+
+  setUser = ({user, isUser}) => {
+    const { socket} = this.props;
+    if (isUser) {
+      this.setError("Username taken");
+    } else {
+      socket.emit(USER_CONNECTED, user);
+      this.props.loginUser(user.name);
+      this.setError("");
+    }
+  }
+
+  setError = (error) => {
+    this.props.authError(error);
   }
 
   renderAlert() {

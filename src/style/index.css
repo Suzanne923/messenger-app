@@ -6,3 +6,24 @@ body {
   margin: 2em auto;
   max-width: 50%;
 }
+
+.chat-container {
+  width: 100%;
+  min-height: 1000px;
+  background-color: #DDDDDD;
+  padding: 0;
+}
+
+.sidebar {
+  max-width: 30%;
+  color: white;
+  min-height: 1000px;
+}
+
+.search-bar {
+  max-width: 90%;
+}
+
+.user-list {
+  list-style: none;
+}

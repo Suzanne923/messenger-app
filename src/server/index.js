@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json({ type: '*/*' }));
 
 // Server setup
-const port = process.env.PORT || 3231;
+const port = process.env.PORT || 3230;
 const server = http.Server(app);
 server.listen(port, function() {
   console.log('server is listening on port ' + port);
