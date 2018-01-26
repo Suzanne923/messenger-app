@@ -6,6 +6,9 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
 module.exports = function(app) {
+  app.get('/', requireAuth, (req, res) => {
+    res.send('database connected');
+  });
   app.post('/login', requireLogin, Authentication.login);
   app.post('/register', Authentication.register);
 }
