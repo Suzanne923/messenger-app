@@ -31,7 +31,3 @@ module.exports.io = io;
 // MongoDB setup
 const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect('MONGODB_URI');
-
-app.get('/', (req, res, next) => {
-  res.sendFile(__dirname + '/../../build/index.html');
-})
