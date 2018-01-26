@@ -1,0 +1,19 @@
+.navbar {
+  background-color: #28a745;
+  height: 60px;
+  color: white;
+}
+
+.current-user {
+  padding-left: 1em;
+}
+
+.logout {
+  text-decoration: none;
+  color: white;
+}
+
+.logout:hover {
+  color: white;
+  text-decoration: underline;
+}

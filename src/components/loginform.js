@@ -1,28 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
+import { Link } from 'react-router';
 import * as actions from '../actions';
-import { VERIFY_USER, USER_CONNECTED } from '../events';
 
-export class LoginForm extends Component {
+class LoginForm extends Component {
   handleFormSubmit({ username, password }) {
-    const { socket } = this.props;
-    socket.emit(VERIFY_USER, username, this.setUser);
-  }
-
-  setUser = ({user, isUser}) => {
-    const { socket} = this.props;
-    if (isUser) {
-      this.setError("Username taken");
-    } else {
-      socket.emit(USER_CONNECTED, user);
-      this.props.loginUser(user.name);
-      this.setError("");
-    }
-  }
-
-  setError = (error) => {
-    this.props.authError(error);
+    this.props.loginUser({ username, password });
   }
 
   renderAlert() {
@@ -38,19 +22,21 @@ export class LoginForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div className="login">
-        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <fieldset className="form-group">
-            <label>Username:</label>
-            <Field name="username" placeholder="enter a username" component="input" type="text" className="form-control" />
-          </fieldset>
-          <fieldset className="form-group">
-            <label>Password:</label>
-            <Field name="password" placeholder="enter a password" component="input" type="password" className="form-control" />
-          </fieldset>
-          {this.renderAlert()}
-          <button action="submit" className="btn btn-primary">Sign in</button>
-        </form>
+      <div className="login-container">
+        <div className="login">
+          <h4 className="login-title">Login to start chatting!</h4>
+          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            <fieldset className="form-group">
+              <Field name="username" placeholder="Username" component="input" type="text" className="form-control" />
+            </fieldset>
+            <fieldset className="form-group">
+              <Field name="password" placeholder="Password" component="input" type="password" className="form-control" />
+            </fieldset>
+            {this.renderAlert()}
+            <button action="submit" className="btn btn-success login-button">Login</button>
+          </form>
+          <Link to="/register" className="register-link">Create an Account</Link>
+        </div>
       </div>
     );
   }

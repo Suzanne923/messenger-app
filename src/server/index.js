@@ -1,30 +1,37 @@
 const express = require('express');
+const app = express();
 const http = require('http');
 const bodyParser = require('body-parser');
-const socket = require('socket.io');
-const SocketManager = require ('./SocketManager');
+const morgan = require('morgan');
+const server = require('http').Server(app);
+const io = module.exports.io = require('socket.io')(server);
+const mongoose = require('mongoose');
+const cors = require('cors');
 
-const app = express();
+const SocketManager = require ('./SocketManager');
+const router = require('./router');
 
 // App setup
 app.use(bodyParser.json({ type: '*/*' }));
+app.use(express.static(__dirname + '/../../build'));
+app.use(morgan('combined'));
+app.use(cors());
+router(app);
 
 // Server setup
 const port = process.env.PORT || 3230;
-const server = http.Server(app);
 server.listen(port, function() {
   console.log('server is listening on port ' + port);
 });
 
-const io = socket(server);
+// Socket setup
 io.on('connection', SocketManager);
+module.exports.io = io;
 
-console.log(__dirname);
-app.use(express.static(__dirname + '/../../build'));
+// MongoDB setup
+const MONGODB_URI = process.env.MONGODB_URI;
+mongoose.connect('MONGODB_URI');
 
-
-
-
-app.get('/', (req, res, next) => {
+/*app.get('/', (req, res, next) => {
   res.sendFile(__dirname + '/../../build/index.html');
-})
+})*/

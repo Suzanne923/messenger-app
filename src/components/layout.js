@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import * as actions from '../actions';
-import { VERIFY_USER } from '../events';
-import LoginForm from './loginform';
+import { USER_CONNECTED } from '../events';
 import ChatContainer from './chat-container';
+import '../style/index.css';
+import Header from './header';
 
-const socketUrl = "localhost:3230";
+const socketUrl = "localhost:3230" || "/";
 
 class Layout extends Component {
   constructor(props) {
@@ -24,35 +25,21 @@ class Layout extends Component {
   initSocket = () => {
     const socket = io(socketUrl);
     socket.on('connect', () => {
-      if (this.props.user) {
-        this.reconnect(socket);
-      } else {
-        console.log("Connected");
-      }
+      this.props.reconnectUser(this.props.user, () => {
+        socket.emit(USER_CONNECTED, this.props.user);
+      });
     });
     this.setState({ socket });
   };
 
-  reconnect = (socket) => {
-    socket.emit(VERIFY_USER, this.props.user, ({ isUser, user}) => {
-      if (isUser) {
-        this.props.loginUser({ user });
-      }
-    });
-  };
-
   render() {
-    const { title, user } = this.props;
     const { socket } = this.state;
     return (
-      <div className="container">
-        <h2>{title}</h2>
-        {
-          !user ?
+      <div>
+        <Header socket={ socket} />
+        <div className="container outer-container">
           <ChatContainer socket={socket} />
-          :
-          <LoginForm socket={socket} />
-        }
+        </div>
       </div>
     );
   }
@@ -60,7 +47,7 @@ class Layout extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.auth.username
+    user: state.auth.username,
   };
 }
 

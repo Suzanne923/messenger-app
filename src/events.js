@@ -5,6 +5,6 @@ module.exports = {
   MESSAGE_SENT: "message-sent",
   MESSAGE_RECEIVED: "message-received",
   TYPING: "typing",
-  VERIFY_USER: "verify-user",
-  LOGOUT: "logout"
+  LOGOUT: "logout",
+  PRIVATE_MESSAGE: "private-message"
 }

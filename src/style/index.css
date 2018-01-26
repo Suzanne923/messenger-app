@@ -1,29 +1,50 @@
-body {
+html, body {
   text-align: center;
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #444444;
+}
+
+.outer-container {
+  height: 100%;
+}
+
+.login-title {
+  color: white;
+  margin-bottom: 1em;
 }
 
 .login {
   margin: 2em auto;
-  max-width: 50%;
+  padding: 2em;
+  max-width: 400px;
+}
+
+.login-button {
+  width: 100%;
+}
+
+.register-container {
+  max-width: 40%;
+  margin: 2em auto;
+  color: white;
+}
+
+.register-link {
+  font-size: 14px;
+  color: white;
+}
+
+.register-link:hover {
+  color: #28a745;
 }
 
 .chat-container {
   width: 100%;
-  min-height: 1000px;
-  background-color: #DDDDDD;
   padding: 0;
-}
-
-.sidebar {
-  max-width: 30%;
-  color: white;
-  min-height: 1000px;
-}
-
-.search-bar {
-  max-width: 90%;
-}
-
-.user-list {
-  list-style: none;
+  display: flex;
+  height: 90vh;
 }

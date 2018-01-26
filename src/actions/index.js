@@ -1,38 +1,79 @@
+import axios from 'axios';
+import { browserHistory } from 'react-router';
 import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
+  ADD_USER,
   ADD_CHAT,
+  RESET_CHAT,
   SET_ACTIVE_CHAT,
-  FETCH_USERS
+  ADD_MESSAGE_TO_CHAT,
+  UPDATE_TYPING_IN_CHAT
 } from './types';
 
-// const ROOT_URL = 'http://localhost:3000';
+const ROOT_URL = 'http://localhost:3230' || '/';
 
-/*export function newMessage(message) {
-  return {
-    type: NEW_MESSAGE,
-    payload: message
-  };
-} */
-
-export function loginUser(name) {
-  return {
-    type: AUTH_USER,
-    payload: name
+export function loginUser({ username, password }) {
+  return function(dispatch) {
+    axios.post(`${ROOT_URL}/login`, { username, password })
+      .then(response => {
+        dispatch({
+          type: AUTH_USER,
+          payload: username
+        });
+        localStorage.setItem('token', response.data.token);
+        browserHistory.push('/chatbox');
+      })
+      .catch(() => {
+        dispatch(authError('Bad Login Info'));
+      })
   };
 }
 
-export function logoutUser() {
-  return {
-    type: UNAUTH_USER
+export function registerUser({ username, password }, callback) {
+  return function(dispatch) {
+    axios.post(`${ROOT_URL}/register`, { username, password })
+      .then(response => {
+        dispatch({
+          type: AUTH_USER,
+          payload: username
+        });
+        localStorage.setItem('token', response.data.token);
+        browserHistory.push('/chatbox');
+        callback();
+      })
+      .catch(response => {
+        dispatch(authError(response.response.data.error));
+      })
   };
+}
+
+export function reconnectUser(username, callback) {
+  callback();
+  return {
+    type: AUTH_USER,
+    payload: username
+  };
+}
+
+export function logoutUser(callback) {
+  localStorage.removeItem('token');
+  callback();
+  return { type: UNAUTH_USER };
 }
 
 export function authError(error) {
   return {
     type: AUTH_ERROR,
     payload: error
+  };
+}
+
+export function fetchUsers(users) {
+  return {
+    type: ADD_USER,
+    users
   };
 }
 
@@ -43,6 +84,16 @@ export function addChat(chat) {
     payload: chat
   };
 }
+// chat = {id: uuidv4, name, messages: [], users: [], typingUsers: [] }
+
+export function resetChat() {
+  let cleanChatArray = [];
+  return {
+    type: RESET_CHAT,
+    payload: cleanChatArray
+  };
+}
+// state.chats: [id: { name: chat.name, messages: chat.messages }]
 
 // sets the current chat conversation as active chat
 export function setActiveChat(chat) {
@@ -52,12 +103,20 @@ export function setActiveChat(chat) {
   };
 }
 
-export function fetchUsers() {
-  let users = [];
-  // logic to fetch online users from db
+export function addMessageToChat(chatId, message) {
   return {
-    type: FETCH_USERS,
-    payload: users
+    type: ADD_MESSAGE_TO_CHAT,
+    id: chatId,
+    message: message.message
   };
 }
-// action for saving message in db
+
+export function updateTypingInChat(isTyping, id, user) {
+  return {
+    type: UPDATE_TYPING_IN_CHAT,
+    isTyping,
+    id,
+    user
+  };
+}
+// [ ...state.chat, { ChatId: {name: ChatName, messages: [ ...messages, addedmessage ]}}]]
