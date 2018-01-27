@@ -13,7 +13,7 @@ const router = require('./router');
 
 // App setup
 app.use(bodyParser.json({ type: '*/*' }));
-app.use(express.static(__dirname + '/../../build'));
+app.use(express.static(path.resolve('/build')));
 app.use(morgan('combined'));
 app.use(cors());
 router(app);
