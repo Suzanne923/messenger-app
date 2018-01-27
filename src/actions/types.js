@@ -1,6 +1,7 @@
 export const AUTH_USER = 'auth-user';
 export const UNAUTH_USER = 'unauth-user';
 export const AUTH_ERROR = 'auth-error';
+export const FETCH_USER = 'fetch-user';
 export const ADD_USER = 'add-user';
 export const ADD_CHAT = 'add-chat';
 export const RESET_CHAT = 'reset-chat';

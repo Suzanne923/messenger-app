@@ -4,6 +4,7 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
+  FETCH_USER,
   ADD_USER,
   ADD_CHAT,
   RESET_CHAT,
@@ -68,6 +69,20 @@ export function authError(error) {
     type: AUTH_ERROR,
     payload: error
   };
+}
+
+export function fetchUser(token) {
+  console.log('fetching user...');
+  return function(dispatch) {
+    axios.get(ROOT_URL, {
+      headers: { authorization: localStorage.getItem('token') }
+    })
+    .then(response => {
+        dispatch({
+          type: FETCH_USER,
+          // payload: response.data.message
+        })
+    });
 }
 
 export function fetchUsers(users) {

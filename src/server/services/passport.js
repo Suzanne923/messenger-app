@@ -34,6 +34,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
 
     if (user) {
       console.log('jwt found');
+      // send username to response
       done(null, user);
     } else {
       console.log('jwt unauthorized');

@@ -1,7 +1,8 @@
 import {
   AUTH_USER,
   UNAUTH_USER,
-  AUTH_ERROR
+  AUTH_ERROR,
+  FETCH_USER
 } from '../actions/types';
 
 const initialState = {}

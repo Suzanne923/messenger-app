@@ -7,16 +7,18 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
 module.exports = function(app) {
-  app.get('/*', function(request, response) {
-    response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
+  app.get('/chatbox', requireAuth, function(request, response) {
+    //response.sendFile(path.resolve(__dirname + '/../../build/index.html')
+    console.log('response :', response);
+    response.sendStatus(500);
     //response.sendStatus(500);
   });
-  /*app.get('/login', function(request, response) {
+  app.get('/login', function(request, response) {
     response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
   });
   app.get('/register', function(request, response) {
     response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
-  });*/
+  });
   app.post('/login', requireLogin, Authentication.login);
   app.post('/register', Authentication.register);
 }
