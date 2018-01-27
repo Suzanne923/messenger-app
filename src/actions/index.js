@@ -84,6 +84,7 @@ export function fetchUser(token) {
           // payload: response.data.message
         })
     });
+  }
 }
 
 export function fetchUsers(users) {
