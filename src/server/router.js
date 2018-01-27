@@ -7,7 +7,13 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
 module.exports = function(app) {
-  app.get('*', function(request, response) {
+  app.get('/chatbox', requireAuth, function(request, response) {
+    response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
+  });
+  app.get('/login', function(request, response) {
+    response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
+  });
+  app.get('/register', function(request, response) {
     response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
   });
   app.post('/login', requireLogin, Authentication.login);
