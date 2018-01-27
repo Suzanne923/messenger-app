@@ -31,7 +31,7 @@ export function loginUser({ username, password }) {
   };
 }
 
-export function registerUser({ username, password }, callback) {
+export function registerUser({ username, password }) {
   return function(dispatch) {
     axios.post(`${ROOT_URL}/register`, { username, password })
       .then(response => {
@@ -41,7 +41,6 @@ export function registerUser({ username, password }, callback) {
         });
         localStorage.setItem('token', response.data.token);
         browserHistory.push('/chatbox');
-        callback();
       })
       .catch(response => {
         console.log(response);
