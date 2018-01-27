@@ -23,7 +23,7 @@ export function loginUser({ username, password }) {
           payload: username
         });
         localStorage.setItem('token', response.data.token);
-        browserHistory.push('#/chatbox');
+        browserHistory.push('/chatbox');
       })
       .catch(() => {
         dispatch(authError('Bad Login Info'));
@@ -40,7 +40,7 @@ export function registerUser({ username, password }) {
           payload: username
         });
         localStorage.setItem('token', response.data.token);
-        browserHistory.push('#/chatbox');
+        browserHistory.push('/chatbox');
       })
       .catch(response => {
         console.log(response);
