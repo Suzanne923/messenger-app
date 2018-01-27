@@ -15,12 +15,20 @@ const router = require('./router');
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(express.static(__dirname + '/../../build'));
 app.use(morgan('combined'));
-app.options('/*', function(req, res, next) {
+app.use(function(req, res, next) {
   console.log(req, 'doing cors');
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Authorization, Content-Length, Accept");
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.send(200);
+  if ('OPTIONS' === req.method) {
+    console.log('received options');
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Authorization, Content-Length, Accept");
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+      res.send(200);
+   }
+   else {
+   //move on
+     next();
+   }
+
 });
 router(app);
 
