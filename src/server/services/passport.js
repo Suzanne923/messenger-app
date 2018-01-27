@@ -30,11 +30,13 @@ const jwtOptions = {
 // Create JWT Strategy, payload = JWT token
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
   User.findById(payload.sub, (err, user) => {
-    if (err) { return done(err, false); }
+    if (err) { console.log('jwt error ', err); return done(err, false); }
 
     if (user) {
+      console.log('jwt found');
       done(null, user);
     } else {
+      console.log('jwt unauthorized');
       done(null, false);
     }
   });
