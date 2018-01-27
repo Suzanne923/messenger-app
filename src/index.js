@@ -19,8 +19,11 @@ const store = createStoreWithMiddleware(reducers);
 const token = localStorage.getItem('token');
 if (token) {
   // send token to db, db checks id in token and sends back the user
+  console.log('token found, fetching user...');
   this.props.fetchUser();
   store.dispatch({ type: AUTH_USER });
+} else {
+  console.log('no token found');
 }
 
 ReactDOM.render(
