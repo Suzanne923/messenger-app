@@ -30,4 +30,4 @@ module.exports.io = io;
 
 // MongoDB setup
 uri = process.env.MONGODB_URI;
-mongoose.connect('MONGODB_URI');
+mongoose.connect(uri);
