@@ -11,14 +11,14 @@ export default function (ComposedComponent) {
     componentWillMount() {
       if (!this.props.authenticated) {
         console.log('redirecting unauthenticated user...')
-        this.context.router.push('/login');
+        this.context.router.push('#/login');
       }
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
         console.log('redirecting unauthenticated user...')
-        this.context.router.push('/login');
+        this.context.router.push('#/login');
       }
     }
 
