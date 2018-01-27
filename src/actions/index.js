@@ -12,7 +12,7 @@ import {
   UPDATE_TYPING_IN_CHAT
 } from './types';
 
-const ROOT_URL = '/';
+const ROOT_URL = `${window.location.protocol}//${window.location.hostname}`;
 
 export function loginUser({ username, password }) {
   return function(dispatch) {
