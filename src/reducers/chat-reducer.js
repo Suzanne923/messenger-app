@@ -46,17 +46,17 @@ export default function(state = initialState, action) {
         if (chat.id === action.id) {
           if (action.isTyping && !chat.typingUsers.includes(action.user)) {
             newChat =  { ...chat, typingUsers: [...chat.typingUsers, action.user] }
-            newActiveChat = newChat;
+            newActiveChat = state.activeChat;
             return newChat;
           } else if (!action.isTyping && chat.typingUsers.includes(action.user)) {
             newChat = { ...chat, typingUsers: chat.typingUsers.filter(u => u !== action.user) }
-            newActiveChat = newChat;
+            newActiveChat = state.activeChat;
             return newChat;
           }
         }
         return chat;
       })
-      return {...state, chats: newChats, activeChat: newActiveChat };
+      return { ...state, chats: newChats, activeChat: newActiveChat };
     default:
       return state;
   }
