@@ -15,12 +15,12 @@ const router = require('./router');
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(express.static(__dirname + '/../../build'));
 app.use(morgan('combined'));
-app.use(cors());
-app.options('/register', cors());
-app.options('/login', cors());
-app.options('/chatbox', cors());
-app.options('*', cors());
-
+app.options('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Authorization, Content-Length, Accept");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.send(200);
+});
 router(app);
 
 // Server setup
