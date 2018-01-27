@@ -27,10 +27,10 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={LoginForm} />
-        <Route path="/login" component={LoginForm} />
-        <Route path="/test" component={AddPersonModal} />
-        <Route path="/register" component={RegisterForm} />
-        <Route path="/chatbox" component={RequireAuth(Layout)} />
+        <Route path="login" component={LoginForm} />
+        <Route path="test" component={AddPersonModal} />
+        <Route path="register" component={RegisterForm} />
+        <Route path="chatbox" component={RequireAuth(Layout)} />
       </Route>
     </Router>
   </Provider>
