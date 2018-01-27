@@ -16,19 +16,7 @@ import { AUTH_USER } from './actions/types';
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
-
-
 ReactDOM.render(
-  const token = localStorage.getItem('token');
-  if (token) {
-    // send token to db, db checks id in token and sends back the user
-    console.log('token found, fetching user...');
-    this.props.fetchUser();
-    store.dispatch({ type: AUTH_USER });
-  } else {
-    console.log('no token found');
-  }
-  
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App}>
