@@ -35,7 +35,7 @@ export default function(state = initialState, action) {
       newChats = state.chats.map((chat) => {
         if (chat.id === action.id) {
           newChat =  { ...chat, messages: [...chat.messages, action.message] }
-          newActiveChat = newChat;
+          newActiveChat = (state.activeChat.id === newChat.id) ? newChat : state.activeChat;
           return newChat;
         }
         return chat;
@@ -46,11 +46,11 @@ export default function(state = initialState, action) {
         if (chat.id === action.id) {
           if (action.isTyping && !chat.typingUsers.includes(action.user)) {
             newChat =  { ...chat, typingUsers: [...chat.typingUsers, action.user] }
-            newActiveChat = state.activeChat;
+            newActiveChat = (state.activeChat.id === newChat.id) ? newChat : state.activeChat;
             return newChat;
           } else if (!action.isTyping && chat.typingUsers.includes(action.user)) {
             newChat = { ...chat, typingUsers: chat.typingUsers.filter(u => u !== action.user) }
-            newActiveChat = state.activeChat;
+            newActiveChat = (state.activeChat.id === newChat.id) ? newChat : state.activeChat;
             return newChat;
           }
         }

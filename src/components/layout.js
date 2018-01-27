@@ -7,7 +7,7 @@ import ChatContainer from './chat-container';
 import '../style/index.css';
 import Header from './header';
 
-const socketUrl = `${window.location.protocol}//${window.location.hostname}`;
+const socketUrl = window.location.hostname.includes('localhost') ? 'http://localhost:3230' : `${window.location.protocol}//${window.location.hostname}`;
 
 class Layout extends Component {
   constructor(props) {
