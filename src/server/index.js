@@ -16,6 +16,10 @@ app.use(bodyParser.json({ type: '*/*' }));
 app.use(express.static(__dirname + '/../../build'));
 app.use(morgan('combined'));
 app.use(cors());
+app.options('/register', cors());
+app.options('/login', cors());
+app.options('/chatbox', cors());
+
 router(app);
 
 // Server setup
