@@ -17,11 +17,13 @@ export default function (ComposedComponent) {
 
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
+        console.log('redirecting unauthenticated user...')
         this.context.router.push('/login');
       }
     }
 
     render() {
+      console.log('user authenticated')
       return <ComposedComponent {...this.props} />
     }
   }
