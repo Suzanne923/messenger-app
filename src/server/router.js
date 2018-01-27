@@ -9,8 +9,6 @@ const requireLogin = passport.authenticate('local', { session: false });
 module.exports = function(app) {
   app.get('/chatbox', requireAuth, function(request, response) {
     //response.sendFile(path.resolve(__dirname + '/../../build/index.html')
-    console.log('response :', response);
-    response.sendStatus(500);
     //response.sendStatus(500);
   });
   app.get('/login', function(request, response) {

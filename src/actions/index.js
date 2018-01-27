@@ -74,10 +74,11 @@ export function authError(error) {
 export function fetchUser(token) {
   console.log('fetching user...');
   return function(dispatch) {
-    axios.get(ROOT_URL, {
+    axios.get(`${ROOT_URL}/chatbox` {
       headers: { authorization: localStorage.getItem('token') }
     })
     .then(response => {
+      console.log(response);
         dispatch({
           type: FETCH_USER,
           // payload: response.data.message
