@@ -44,7 +44,7 @@ export function registerUser({ username, password }, callback) {
         callback();
       })
       .catch(response => {
-        dispatch(authError(response.response.data.error));
+        dispatch(authError(response.data.error));
       })
   };
 }
