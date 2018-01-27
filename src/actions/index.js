@@ -44,6 +44,7 @@ export function registerUser({ username, password }, callback) {
         callback();
       })
       .catch(response => {
+        console.log(response);
         dispatch(authError(response.data.error));
       })
   };
