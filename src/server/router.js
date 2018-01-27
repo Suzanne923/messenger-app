@@ -7,7 +7,6 @@ const requireLogin = passport.authenticate('local', { session: false });
 
 module.exports = function(app) {
   app.get('*', function(request, response) {
-
     response.sendFile(__dirname + '/../../build');
   });
   app.post('/login', requireLogin, Authentication.login);
