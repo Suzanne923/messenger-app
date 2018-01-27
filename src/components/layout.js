@@ -7,7 +7,7 @@ import ChatContainer from './chat-container';
 import '../style/index.css';
 import Header from './header';
 
-const socketUrl = "localhost:3230" || "/";
+const socketUrl = "/";
 
 class Layout extends Component {
   constructor(props) {
