@@ -19,6 +19,7 @@ app.use(cors());
 app.options('/register', cors());
 app.options('/login', cors());
 app.options('/chatbox', cors());
+app.options('*', cors());
 
 router(app);
 
