@@ -19,8 +19,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRoute component={RequireAuth(Layout)} />
-        <Route path="login" component={LoginForm} />
+        <IndexRoute component={Layout} />
         <Route path="register" component={RegisterForm} />
       </Route>
     </Router>

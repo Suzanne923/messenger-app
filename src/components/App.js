@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { browserHistory } from 'react-router';
+import LoginForm from './loginform';
 
 class App extends Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
     if (token) {
       this.props.fetchUser(token);
-    } else {
-      browserHistory.push('/login');
     }
   }
 
@@ -18,11 +17,11 @@ class App extends Component {
     return (
       <div>
         {
-          this.props.user ?
+          user ?
             <div>
               {this.props.children}
             </div>
-          : null
+          : <LoginForm />
         }
       </div>
     );

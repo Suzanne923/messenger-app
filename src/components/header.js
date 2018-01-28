@@ -21,7 +21,7 @@ class Header extends Component {
         <div className="container">
           <div className="current-user">{user ? user : "Username"}</div>
           {authenticated ?
-            <Link onClick={this.handleClick} className="nav-link logout" to="/login">
+            <Link onClick={this.handleClick} className="nav-link logout" to="/">
               <i className="logout-icon"><FaSignOut /></i>
               Logout
             </Link>
