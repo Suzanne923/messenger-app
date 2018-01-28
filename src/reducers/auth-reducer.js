@@ -15,6 +15,9 @@ export default function(state = initialState, action) {
       return { ...state, username: '', authenticated: false };
     case AUTH_ERROR:
       return { ...state, error: action.payload };
+    case FETCH_USER: {
+      return { ...state, error: '', username: action.payload, authenticated: true };
+    }
     default:
       return state;
   }

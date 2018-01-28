@@ -4,8 +4,8 @@ import io from 'socket.io-client';
 import * as actions from '../actions';
 import { USER_CONNECTED } from '../events';
 import ChatContainer from './chat-container';
-import '../style/index.css';
 import Header from './header';
+import '../style/index.css';
 
 const socketUrl = window.location.hostname.includes('localhost') ? 'http://localhost:3230' : `${window.location.protocol}//${window.location.hostname}`;
 
@@ -20,14 +20,6 @@ class Layout extends Component {
 
   componentWillMount() {
     this.initSocket();
-    const token = localStorage.getItem('token');
-    if (token) {
-      // send token to db, db checks id in token and sends back the user
-      console.log('token found, fetching user...');
-      this.props.fetchUser();
-    } else {
-      console.log('no token found');
-    }
   }
 
   initSocket = () => {
