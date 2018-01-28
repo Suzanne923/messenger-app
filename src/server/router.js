@@ -10,9 +10,6 @@ module.exports = function(app) {
   app.get('/', requireAuth, function(request, response) {
     response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
   });
-  app.get('/login', function(request, response) {
-    response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
-  });
   app.get('/register', function(request, response) {
     response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
   });

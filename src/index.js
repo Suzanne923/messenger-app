@@ -7,9 +7,7 @@ import reduxThunk from 'redux-thunk';
 
 import App from './components/App';
 import Layout from './components/layout';
-import LoginForm from './components/loginform';
 import RegisterForm from './components/register-form';
-import RequireAuth from './components/require_auth';
 import reducers from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
@@ -20,8 +18,8 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={Layout} />
-        <Route path="register" component={RegisterForm} />
       </Route>
+      <Route path="register" component={RegisterForm} />
     </Router>
   </Provider>
   , document.getElementById('root'));
