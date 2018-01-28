@@ -26,7 +26,6 @@ class Layout extends Component {
     const socket = io(socketUrl);
     socket.on('connect', () => {
       if (this.props.authenticated) {
-        console.log(this.props.user);
         socket.emit(USER_CONNECTED, this.props.user);
       } else {
         this.props.reconnectUser(this.props.user, () => {
