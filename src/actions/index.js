@@ -4,7 +4,6 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
-  FETCH_USER,
   ADD_USER,
   ADD_CHAT,
   RESET_CHAT,
@@ -24,7 +23,7 @@ export function loginUser({ username, password }) {
           payload: username
         });
         localStorage.setItem('token', response.data.token);
-        browserHistory.push('/chatbox');
+        browserHistory.push('/');
       })
       .catch(() => {
         dispatch(authError('Bad Login Info'));
@@ -41,7 +40,7 @@ export function registerUser({ username, password }) {
           payload: username
         });
         localStorage.setItem('token', response.data.token);
-        browserHistory.push('/chatbox');
+        browserHistory.push('/');
       })
       .catch(response => {
         console.log(response);
@@ -72,17 +71,16 @@ export function authError(error) {
 }
 
 export function fetchUser(token) {
-  console.log('fetching user...');
   return function(dispatch) {
-    axios.get(`${ROOT_URL}/chatbox`, {
-      headers: { authorization: localStorage.getItem('token') }
+    axios.get(`${ROOT_URL}/authenticate`, {
+      headers: { authorization: token }
     })
     .then(response => {
-      console.log(' response: ', response);
         dispatch({
-          type: FETCH_USER,
-          // payload: response.data.message
+          type: AUTH_USER,
+          payload: response.data.username
         })
+        browserHistory.push('/');
     });
   }
 }

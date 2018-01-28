@@ -23,18 +23,13 @@ class Layout extends Component {
   }
 
   initSocket = () => {
-    const socket = io(socketUrl);
-    socket.on('connect', () => {
-      if (this.props.authenticated) {
+    if (!this.state.socket) {
+      const socket = io(socketUrl);
+      socket.on('connect', () => {
         socket.emit(USER_CONNECTED, this.props.user);
-      } else {
-        this.props.reconnectUser(this.props.user, () => {
-          socket.emit(USER_CONNECTED, this.props.user);
-        });
-      }
-
-    });
-    this.setState({ socket });
+      });
+      this.setState({ socket });
+    }
   };
 
   render() {
