@@ -1,6 +1,7 @@
 const io = require('./index.js').io;
 const { USER_CONNECTED, USER_DISCONNECTED, LOGOUT, COMMUNITY_CHAT,
-  MESSAGE_RECEIVED, MESSAGE_SENT, TYPING, PRIVATE_MESSAGE } = require('../events');
+MESSAGE_RECEIVED, MESSAGE_SENT, TYPING, PRIVATE_MESSAGE,
+NEW_USER_ADDED, ADDED_TO_CHAT } = require('../events');
 const { createUser, createMessage, createChat } = require('../factories');
 
 let connectedUsers = { };
@@ -52,16 +53,25 @@ module.exports = function(socket) {
     sendTypingFromUser(chatId, isTyping);
   })
 
-  socket.on(PRIVATE_MESSAGE, ({ receiver, sender, activeChat }) => {
+  socket.on(PRIVATE_MESSAGE, ({ receiver, sender }) => {
     if(receiver in connectedUsers) {
-      const newChat = createChat({ name: receiver, users: [receiver, sender] });
       const receiverSocket = connectedUsers[receiver].socketId;
+      const newChat = createChat({ name: receiver, users: [receiver, sender] });
       socket.to(receiverSocket).emit(PRIVATE_MESSAGE, newChat);
       socket.emit(PRIVATE_MESSAGE, newChat);
     }
   })
 
-  //separate function for adding user;
+  socket.on(NEW_USER_ADDED, ({ receiver, activeChat}) => {
+    if (receiver in connectedUsers) {
+      const receiverSocket = connectedUsers[receiver].socketId;
+      if (activeChat !== null || activeChat.id !== communityChat.id) {
+        socket.to(receiverSocket).emit(ADDED_TO_CHAT, activeChat);
+        socket.emit(NEW_USER_ADDED, activeChat, receiver);
+      }
+    }
+  })
+
 }
 
 function sendTypingToChat(user) {

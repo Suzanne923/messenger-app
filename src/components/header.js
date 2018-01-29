@@ -6,7 +6,6 @@ import { FaSignOut } from 'react-icons/lib/fa';
 import '../style/header.css';
 
 class Header extends Component {
-
   handleClick = () => {
     const { logoutUser, socket } = this.props;
     logoutUser(() => {

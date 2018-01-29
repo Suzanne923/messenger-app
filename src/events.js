@@ -6,5 +6,7 @@ module.exports = {
   MESSAGE_RECEIVED: "message-received",
   TYPING: "typing",
   LOGOUT: "logout",
-  PRIVATE_MESSAGE: "private-message"
+  PRIVATE_MESSAGE: "private-message",
+  NEW_USER_ADDED: "new-user-added",
+  ADDED_TO_CHAT: "added-to-chat"
 }

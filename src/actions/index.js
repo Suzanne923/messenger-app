@@ -9,7 +9,8 @@ import {
   RESET_CHAT,
   SET_ACTIVE_CHAT,
   ADD_MESSAGE_TO_CHAT,
-  UPDATE_TYPING_IN_CHAT
+  UPDATE_TYPING_IN_CHAT,
+  ADD_USER_TO_CHAT
 } from './types';
 
 const ROOT_URL = window.location.hostname.includes('localhost') ? 'http://localhost:3230' : `${window.location.protocol}//${window.location.hostname}`;
@@ -134,4 +135,12 @@ export function updateTypingInChat(isTyping, id, user) {
     user
   };
 }
-// [ ...state.chat, { ChatId: {name: ChatName, messages: [ ...messages, addedmessage ]}}]]
+
+
+export function addUserToChat(chatId, user) {
+  return {
+    type: ADD_USER_TO_CHAT,
+    id: chatId.id,
+    user
+  };
+}

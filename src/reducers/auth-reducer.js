@@ -4,9 +4,7 @@ import {
   AUTH_ERROR
 } from '../actions/types';
 
-const initialState = {}
-
-export default function(state = initialState, action) {
+export default function(state = {}, action) {
   switch(action.type) {
     case AUTH_USER:
       return { ...state, error: '', username: action.payload, authenticated: true };

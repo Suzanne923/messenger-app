@@ -4,24 +4,15 @@ import {
   RESET_CHAT,
   SET_ACTIVE_CHAT,
   ADD_MESSAGE_TO_CHAT,
-  UPDATE_TYPING_IN_CHAT
+  UPDATE_TYPING_IN_CHAT,
+  ADD_USER_TO_CHAT
 } from '../actions/types';
-
-const initialState = {
-  chats: [],
-  users: [],
-  activeChat: {
-    name: '',
-    messages: [],
-    typingUsers: []
-  }
-};
 
 let newActiveChat;
 let newChats;
 let newChat;
 
-export default function(state = initialState, action) {
+export default function(state = {}, action) {
   switch(action.type) {
     case ADD_USER:
       return { ...state, users: action.users };
@@ -53,6 +44,16 @@ export default function(state = initialState, action) {
             newActiveChat = (state.activeChat.id === newChat.id) ? newChat : state.activeChat;
             return newChat;
           }
+        }
+        return chat;
+      })
+      return { ...state, chats: newChats, activeChat: newActiveChat };
+    case ADD_USER_TO_CHAT:
+      newChats = state.chats.map((chat) => {
+        if (chat.id === action.id) {
+          newChat = { ...chat, users: [...chat.users, action.user] };
+          newActiveChat = (state.activeChat.id === newChat.id) ? newChat : state.activeChat;
+          return newChat;
         }
         return chat;
       })

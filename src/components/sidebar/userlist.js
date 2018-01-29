@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import '../../style/sidebar.css';
 
 class UserList extends Component {
-  addPerson(e, user) {
+  startPrivateChat(e, user) {
+    const { chats, onSendPrivateMessage } = this.props
     const receiver = e.currentTarget.dataset.id;
-    const objArray = this.props.chats.map(c => c.name);
-    console.log(this.props.chats.map(c => c.name), user)
+    const objArray = chats.map(c => c.name);
     if (!objArray.includes(user)) {
-      this.props.onSendPrivateMessage(receiver);
+      onSendPrivateMessage(receiver);
     }
   }
 
@@ -19,7 +19,7 @@ class UserList extends Component {
           users.map((u, i) => {
             if (u !== user) {
               return (
-                <li onClick={(e) => {this.addPerson(e, u)}} data-id={u} key={i}>
+                <li onClick={(e) => {this.startPrivateChat(e, u)}} data-id={u} key={i}>
                   <span className="dot-icon"></span>
                   <div className="user-list-item">{u}</div>
                 </li>

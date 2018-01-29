@@ -1,40 +1,47 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FaSearch, FaCog } from 'react-icons/lib/fa';
-import '../style/sidebar.css';
-import UserList from './sidebar/userlist';
+import '../../style/sidebar.css';
+import UserList from './userlist';
 
 class SideBar extends Component {
+  static propTypes = {
+    socket: PropTypes.object,
+    user: PropTypes.string,
+    users: PropTypes.array,
+    chats: PropTypes.array,
+    activeChat: PropTypes.object,
+  }
+
   constructor(props) {
     super(props);
-
     this.state = {
-      receiver: ""
+      search: ""
     }
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { receiver } = this.state;
-    const { onSendPrivateMessage } = this.props;
-
-    onSendPrivateMessage(receiver);
   }
 
   render() {
-    const { chats, user, users, activeChat, onSendPrivateMessage } = this.props;
-    const { receiver } = this.state;
+    const { user, users, chats, activeChat, onSendPrivateMessage, onSetActiveChat } = this.props;
 
     const ChatList = () => chats.map((chat, i) => {
       if (chat.name) {
         const lastMessage = chat.messages[chat.messages.length-1];
-        const chatSideName = chat.users.find((name) => {
-          return name !== user
-        }) || "Community";
+        let chatName;
+        chat.users.forEach((name) => {
+          if (name !== user) {
+            chatName = chatName ? chatName.concat(`, ${name}`) : name;
+          }
+        });
+        const chatSideName = chatName || "Community";
         const classNames = (activeChat && activeChat.id === chat.id) ? 'active' : '';
         return (
           <li key={chat.id}
             className={`chat-list-item ${classNames}`}
-            onClick={ () => { this.props.onSetActiveChat(chat) } }
+            onClick={ () => { onSetActiveChat(chat) } }
           >
             <div className="chat-info">
               <div className="chat-icon">{chatSideName[0].toUpperCase()}</div>
@@ -51,15 +58,13 @@ class SideBar extends Component {
       <div className="sidebar">
         <div className="heading">
           <i className="cog-icon"><FaCog /></i>
-          Online Users
+          Messenger
         </div>
         <form onSubmit={this.handleSubmit} className="search">
           <input
             className="search-bar"
             placeholder="Search users"
             type="text"
-            value={receiver}
-            onChange={(e) => { this.setState({receiver: e.target.value}) }}
           />
           <i className="search-icon"><FaSearch /></i>
         </form>
@@ -68,7 +73,7 @@ class SideBar extends Component {
           <ChatList />
         </ul>
         <p className="users">Online users:</p>
-        <UserList onSendPrivateMessage={onSendPrivateMessage} user={user} users={users} chats={chats} />
+        <UserList onSendPrivateMessage={onSendPrivateMessage} user={user} users={users} />
       </div>
     );
   }

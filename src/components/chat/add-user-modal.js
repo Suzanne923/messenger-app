@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FaPlus } from 'react-icons/lib/fa';
+import Modal from 'react-responsive-modal/lib/css';
 import 'react-responsive-modal/lib/react-responsive-modal.css';
 import '../../style/modal.css';
-import Modal from 'react-responsive-modal/lib/css';
-import UserList from '../sidebar/userlist';
+import '../../style/sidebar.css';
 
-class AddPersonModal extends Component {
+class AddUserModal extends Component {
   constructor(props) {
     super(props);
     this.state = { show: false }
@@ -20,9 +20,41 @@ class AddPersonModal extends Component {
     this.setState({ show: false });
   }
 
+  addUser(e, user) {
+    const { activeChat, onAddUserToChat } = this.props
+    if (!activeChat.users.includes(user)) {
+      const receiver = e.currentTarget.dataset.id;
+      onAddUserToChat(receiver);
+    }
+  }
+
   render() {
     const { show } = this.state
-    const { user, users, chats, onSendPrivateMessage } = this.props;
+    const { user, users, activeChat } = this.props;
+
+    const UserList = () => {
+      return (
+        <ul className="user-list">
+          {
+            users.map((u, i) => {
+              if (u !== user) {
+                return (
+                  <li onClick={(e) => {this.addUser(e, u)}} data-id={u} key={i}>
+                    <span className="dot-icon"></span>
+                    <div className="user-list-item">
+                      {u}
+                      { activeChat.users.includes(u) ? <span className="added">Added</span> : null }
+                    </div>
+
+                  </li>
+                );
+              } else { return null; }
+            })
+          }
+        </ul>
+      );
+    }
+
     return (
       <div>
         <i className="plus-icon" onClick={this.handleShow}><FaPlus /></i>
@@ -35,7 +67,7 @@ class AddPersonModal extends Component {
           <div className="modal-body">
             <p className="users">Online users:</p>
             <ul className="user-list">
-              <UserList onSendPrivateMessage={onSendPrivateMessage} user={user} users={users} chats={chats} />
+              <UserList />
             </ul>
           </div>
         </Modal>
@@ -46,10 +78,11 @@ class AddPersonModal extends Component {
 
 function addStateToProps(state) {
   return {
+    activeChat: state.chat.activeChat,
     user: state.auth.username,
     users: state.chat.users,
     chats: state.chat.chats
   };
 }
 
-export default connect(addStateToProps, null)(AddPersonModal);
+export default connect(addStateToProps, null)(AddUserModal);

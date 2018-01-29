@@ -12,7 +12,6 @@ const socketUrl = window.location.hostname.includes('localhost') ? 'http://local
 class Layout extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       socket: null
     };
@@ -23,10 +22,12 @@ class Layout extends Component {
   }
 
   initSocket = () => {
-    if (!this.state.socket) {
+    const { user } = this.props;
+    const { socket } = this.state;
+    if (!socket) {
       const socket = io(socketUrl);
       socket.on('connect', () => {
-        socket.emit(USER_CONNECTED, this.props.user);
+        socket.emit(USER_CONNECTED, user);
       });
       this.setState({ socket });
     }

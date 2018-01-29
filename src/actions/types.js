@@ -7,3 +7,4 @@ export const RESET_CHAT = 'reset-chat';
 export const SET_ACTIVE_CHAT = 'set-active-chat';
 export const ADD_MESSAGE_TO_CHAT = 'add-message-to-chat';
 export const UPDATE_TYPING_IN_CHAT = 'update-typing-in-chat';
+export const ADD_USER_TO_CHAT = 'add-user-to-chat';

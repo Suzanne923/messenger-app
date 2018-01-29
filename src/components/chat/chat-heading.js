@@ -1,11 +1,11 @@
 import React from 'react';
-import AddPersonModal from './add-person-modal'
+import AddUserModal from './add-user-modal'
 
-export default ({name, onSendPrivateMessage }) => {
+export default ({name, onAddUserToChat }) => {
   return (
     <div className="chat-header">
       <div className="user-name">{name}</div>
-      <AddPersonModal onSendPrivateMessage={onSendPrivateMessage} />
+      <AddUserModal onAddUserToChat={onAddUserToChat} />
     </div>
   );
 }

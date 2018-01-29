@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import '../../style/chatroom.css';
 
 class Messages extends Component {
+  static propTypes = {
+    user: PropTypes.string,
+    messages: PropTypes.array,
+    typingUsers: PropTypes.array
+  }
+
   constructor(props) {
     super(props);
-
     this.scrollDown = this.scrollDown.bind(this);
   }
 
@@ -23,7 +29,7 @@ class Messages extends Component {
   }
 
   render() {
-    const { messages, user, typingUsers } = this.props;
+    const { user, messages, typingUsers } = this.props;
 
     const MessagesList = messages.map((message, i) => {
       return (

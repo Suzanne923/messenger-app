@@ -21,15 +21,19 @@ class MessageInput extends Component {
   }
 
   sendMessage = () => {
-    const message = createMessage({ message: this.state.message, sender: this.props.user });
-    this.props.sendMessage(message);
+    const { user, sendMessage } = this.props;
+    const { message } = this.state;
+    const newMessage = createMessage({ message, sender: user });
+    sendMessage(newMessage);
   }
 
   sendTyping = () => {
+    const { sendTyping } = this.props;
+    const { isTyping } = this.state;
     this.lastUpdateTime = Date.now();
-    if(!this.state.isTyping) {
+    if(!isTyping) {
       this.setState({ isTyping: true });
-      this.props.sendTyping(true);
+      sendTyping(true);
       this.startCheckingTyping();
     }
   }
@@ -44,9 +48,10 @@ class MessageInput extends Component {
   }
 
   stopCheckingTyping = () => {
+    const { sendTyping } = this.props;
     if (this.typingInterval) {
       clearInterval(this.typingInterval);
-      this.props.sendTyping(false);
+      sendTyping(false);
     }
   }
 
