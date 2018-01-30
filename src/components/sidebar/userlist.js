@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import '../../style/sidebar.css';
 
 class UserList extends Component {
+  static defaultProps = {
+    users: []
+  }
+  
   startPrivateChat(e, user) {
     const { chats, onSendPrivateMessage } = this.props
     const receiver = e.currentTarget.dataset.id;

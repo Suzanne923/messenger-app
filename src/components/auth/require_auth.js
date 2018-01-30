@@ -22,7 +22,15 @@ export default function (ComposedComponent) {
     }
 
     render() {
-      return <ComposedComponent {...this.props} />
+      return (
+        <div>
+          {
+            this.props.authenticated ?
+              <ComposedComponent {...this.props} />
+            : <div>Loading...</div>   
+          }
+        </div>
+      )
     }
   }
 

@@ -1,7 +1,9 @@
 const io = require('./index.js').io;
+
 const { USER_CONNECTED, USER_DISCONNECTED, LOGOUT, COMMUNITY_CHAT,
-MESSAGE_RECEIVED, MESSAGE_SENT, TYPING, PRIVATE_MESSAGE,
-NEW_USER_ADDED, ADDED_TO_CHAT } = require('../events');
+MESSAGE_SENT, MESSAGE_RECEIVED, TYPING, PRIVATE_MESSAGE,
+NEW_USER_ADDED, USER_REMOVED } = require('../events');
+
 const { createUser, createMessage, createChat } = require('../factories');
 
 let connectedUsers = { };
@@ -13,30 +15,31 @@ module.exports = function(socket) {
   let sendMessageToChatFromUser;
   let sendTypingFromUser;
 
+  // User connects to socket with username
   socket.on(USER_CONNECTED, (username) => {
     const user = createUser({ name: username, socketId: socket.id });
-    if (!isUser(connectedUsers, user.name) && user.name !== null) {
-      connectedUsers = addUser(connectedUsers, user);
-      socket.user = user;
-      sendMessageToChatFromUser = sendMessageToChat(user.name);
-      sendTypingFromUser = sendTypingToChat(user.name);
-      io.emit(USER_CONNECTED, connectedUsers);
-      console.log('connected users: ', Object.keys(connectedUsers));
-    }
+    connectedUsers = addUser(connectedUsers, user);
+    socket.user = user;
+
+    sendMessageToChatFromUser = sendMessageToChat(user.name);
+    sendTypingFromUser = sendTypingToChat(user.name);
+
+    io.emit(USER_CONNECTED, connectedUsers);
+    console.log('connected users: ', Object.keys(connectedUsers));
   });
 
   // User disconnects
   socket.on('disconnect', () => {
     if ("user" in socket) {
       connectedUsers = removeUser(connectedUsers, socket.user.name);
-      io.emit(USER_DISCONNECTED, connectedUsers);
-      console.log('user disconnected');
+      io.emit(USER_DISCONNECTED, Object.keys(connectedUsers));
     }
   })
+
   // User logouts
   socket.on(LOGOUT, () => {
     connectedUsers = removeUser(connectedUsers, socket.user.name);
-    io.emit(USER_DISCONNECTED, connectedUsers);
+    io.emit(USER_DISCONNECTED, Object.keys(connectedUsers));
     console.log('user disconnected');
   })
 
@@ -63,11 +66,23 @@ module.exports = function(socket) {
   })
 
   socket.on(NEW_USER_ADDED, ({ receiver, activeChat}) => {
-    if (receiver in connectedUsers) {
+    if (!(activeChat.users.includes(receiver))) {
       const receiverSocket = connectedUsers[receiver].socketId;
-      if (activeChat !== null || activeChat.id !== communityChat.id) {
-        socket.to(receiverSocket).emit(ADDED_TO_CHAT, activeChat);
-        socket.emit(NEW_USER_ADDED, activeChat, receiver);
+      socket.emit(NEW_USER_ADDED, activeChat.id, receiver);
+      socket.to(receiverSocket).emit(PRIVATE_MESSAGE, activeChat);
+    }
+  })
+
+  socket.on(USER_REMOVED, ({ user, activeChat}) => {
+    if (user in connectedUsers) {
+      const receiverSocket = connectedUsers[user].socketId;
+      if (activeChat.id !== communityChat.id) {
+        activeChat.users
+          .filter(u => u !== user)
+          .map(u => connectedUsers[u])
+          .forEach(u => {
+            socket.to(u.socketId).emit(USER_REMOVED, user);
+          });
       }
     }
   })

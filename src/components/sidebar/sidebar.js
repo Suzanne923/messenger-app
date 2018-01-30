@@ -73,7 +73,7 @@ class SideBar extends Component {
           <ChatList />
         </ul>
         <p className="users">Online users:</p>
-        <UserList onSendPrivateMessage={onSendPrivateMessage} user={user} users={users} />
+        <UserList onSendPrivateMessage={onSendPrivateMessage} user={user} users={users} chats={chats} />
       </div>
     );
   }

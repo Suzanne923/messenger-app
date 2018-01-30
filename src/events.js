@@ -8,5 +8,5 @@ module.exports = {
   LOGOUT: "logout",
   PRIVATE_MESSAGE: "private-message",
   NEW_USER_ADDED: "new-user-added",
-  ADDED_TO_CHAT: "added-to-chat"
+  USER_REMOVED: "user-removed",
 }

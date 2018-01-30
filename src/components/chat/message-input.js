@@ -18,14 +18,14 @@ class MessageInput extends Component {
     e.preventDefault();
     this.sendMessage();
     this.setState({message: ''});
-  }
+  };
 
   sendMessage = () => {
     const { user, sendMessage } = this.props;
     const { message } = this.state;
     const newMessage = createMessage({ message, sender: user });
     sendMessage(newMessage);
-  }
+  };
 
   sendTyping = () => {
     const { sendTyping } = this.props;
@@ -36,7 +36,7 @@ class MessageInput extends Component {
       sendTyping(true);
       this.startCheckingTyping();
     }
-  }
+  };
 
   startCheckingTyping = () => {
     this.typingInterval = setInterval(() => {
@@ -45,7 +45,7 @@ class MessageInput extends Component {
         this.stopCheckingTyping();
       }
     }, 300);
-  }
+  };
 
   stopCheckingTyping = () => {
     const { sendTyping } = this.props;
@@ -53,10 +53,11 @@ class MessageInput extends Component {
       clearInterval(this.typingInterval);
       sendTyping(false);
     }
-  }
+  };
 
   render() {
     const { message } = this.state;
+
     return (
       <div className="message-input">
         <form

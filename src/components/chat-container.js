@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import { USER_CONNECTED, LOGOUT, MESSAGE_SENT, MESSAGE_RECEIVED, TYPING,
-  COMMUNITY_CHAT, PRIVATE_MESSAGE, NEW_USER_ADDED, ADDED_TO_CHAT } from '../events';
+import { difference } from 'lodash';
+import { USER_CONNECTED, USER_DISCONNECTED, LOGOUT, COMMUNITY_CHAT, MESSAGE_SENT, MESSAGE_RECEIVED, TYPING,
+  PRIVATE_MESSAGE, NEW_USER_ADDED, USER_REMOVED } from '../events';
+
 import SideBar from './sidebar/sidebar';
 import ChatHeading from './chat/chat-heading';
 import Messages from './chat/messages';
@@ -22,41 +24,58 @@ class ChatContainer extends Component {
     this.initSocket(socket);
   }
 
+  componentWillUnmount() {
+    const { socket } = this.props;
+    socket.off(USER_CONNECTED);
+    socket.off(USER_DISCONNECTED);
+    socket.off(PRIVATE_MESSAGE);
+    socket.off(NEW_USER_ADDED);
+    socket.off(USER_REMOVED);
+  }
+
   initSocket(socket) {
-    socket.on(PRIVATE_MESSAGE, this.addChat);
-    socket.on(ADDED_TO_CHAT, this.addChat);
-    socket.on(NEW_USER_ADDED, this.props.addUserToChat);
     socket.on(USER_CONNECTED, this.fetchUsers);
+    socket.on(USER_DISCONNECTED, this.removeUser);
     socket.on('connect', () => {
       socket.emit(COMMUNITY_CHAT, this.resetChat);
     });
+    socket.on(PRIVATE_MESSAGE, this.addChat);
+    socket.on(NEW_USER_ADDED, this.props.addUserToChat);
+    socket.on(USER_REMOVED, this.props.removeUserFromChat);
   }
 
   fetchUsers = (connectedUsers) => {
     const { fetchUsers } = this.props;
     const users = Object.keys(connectedUsers);
     fetchUsers(users);
-  }
+  };
 
-  sendOpenPrivateMessage = (receiver) => {
-    const { socket, user } = this.props;
-    socket.emit(PRIVATE_MESSAGE, { receiver, sender: user });
-  }
+  removeUser = (onlineUsers) => {
+    const { fetchUsers, removeUserFromChat } = this.props;
+    const removedUser = difference(this.props.users, onlineUsers);
+    fetchUsers(onlineUsers);
+    removeUserFromChat(removedUser[0]);
+  };
 
-  addUserToChat = (receiver) => {
+  leaveChat = () => {
+    const { socket, activeChat, user, removeChat } = this.props;
+    socket.emit(USER_REMOVED, { user, activeChat });
+    removeChat(activeChat);
+  };
+
+  addUserToChat = (newUser) => {
     const { socket, activeChat } = this.props;
-    socket.emit(NEW_USER_ADDED, { receiver, activeChat });
-  }
+    socket.emit(NEW_USER_ADDED, { newUser, activeChat });
+  };
 
-  logout = () => {
-    const { socket, logoutUser } = this.props;
-    socket.emit(LOGOUT);
-    logoutUser();
+  removeUserFromChat = (removedUser) => {
+    const { socket, activeChat } = this.props;
+    socket.emit(USER_REMOVED, { removedUser, activeChat });
   };
 
   resetChat = (chat) => {
     return this.addChat(chat, true);
-  }
+  };
 
   addChat = (chat, reset = false) => {
     const { socket, resetChat, setActiveChat, addChat } = this.props;
@@ -70,14 +89,19 @@ class ChatContainer extends Component {
     const typingEvent = `${TYPING}-${chat.id}`;
     socket.on(messageEvent, this.addMessageToChat(chat.id))
     socket.on(typingEvent, this.updateTypingInChat(chat.id));
-  }
+  };
+
+  sendOpenPrivateMessage = (receiver) => {
+    const { socket, user } = this.props;
+    socket.emit(PRIVATE_MESSAGE, { receiver, sender: user });
+  };
 
   addMessageToChat = (chatId) => {
     const { addMessageToChat } = this.props;
     return (message) => {
       addMessageToChat(chatId, message);
-    }
-  }
+    };
+  };
 
   updateTypingInChat = (chatId) => {
     const { updateTypingInChat } = this.props;
@@ -85,21 +109,28 @@ class ChatContainer extends Component {
       if (user !== this.props.user) {
         updateTypingInChat(isTyping, chatId, user);
       }
-    }
+    };
   }
 
   sendMessage = (chatId, message) => {
     const { socket } = this.props;
     socket.emit(MESSAGE_SENT, {chatId, message});
-  }
+  };
 
   sendTyping = (chatId, isTyping) => {
     const { socket } = this.props;
     socket.emit(TYPING, {chatId, isTyping});
-  }
+  };
+
+  logout = () => {
+    const { socket, logoutUser } = this.props;
+    socket.emit(LOGOUT);
+    logoutUser();
+  };
 
   render() {
     const { socket, user, users, chats, activeChat, setActiveChat } = this.props;
+
     return (
       <div className="container chat-container">
         <SideBar
@@ -115,8 +146,10 @@ class ChatContainer extends Component {
           {activeChat.name ? (
             <div className="chat-room">
               <ChatHeading
-                name={activeChat.name}
+                users={activeChat.users}
                 onAddUserToChat={this.addUserToChat}
+                onRemoveUser={this.removeUserFromChat}
+                onLeaveChat={this.leaveChat}
               />
               <Messages
                 user={user}
@@ -140,7 +173,7 @@ class ChatContainer extends Component {
             </div>
             ) :
             <div className="chat-room choose">
-              <h3>Click on a user to start chatting!</h3>
+              <h4>Click on a user to start chatting!</h4>
             </div>
           }
         </div>

@@ -5,12 +5,15 @@ import {
   UNAUTH_USER,
   AUTH_ERROR,
   ADD_USER,
+  REMOVE_USER,
   ADD_CHAT,
+  REMOVE_CHAT,
   RESET_CHAT,
   SET_ACTIVE_CHAT,
   ADD_MESSAGE_TO_CHAT,
   UPDATE_TYPING_IN_CHAT,
-  ADD_USER_TO_CHAT
+  ADD_USER_TO_CHAT,
+  REMOVE_USER_FROM_CHAT
 } from './types';
 
 const ROOT_URL = window.location.hostname.includes('localhost') ? 'http://localhost:3230' : `${window.location.protocol}//${window.location.hostname}`;
@@ -93,6 +96,13 @@ export function fetchUsers(users) {
   };
 }
 
+export function removeUser(users) {
+  return {
+    type: REMOVE_USER,
+    users
+  };
+}
+
 // adds a new chat conversation to the list of open chats
 export function addChat(chat) {
   return {
@@ -100,7 +110,13 @@ export function addChat(chat) {
     payload: chat
   };
 }
-// chat = {id: uuidv4, name, messages: [], users: [], typingUsers: [] }
+
+export function removeChat(chat) {
+  return {
+    type: REMOVE_CHAT,
+    payload: chat.id
+  };
+}
 
 export function resetChat() {
   let cleanChatArray = [];
@@ -109,7 +125,6 @@ export function resetChat() {
     payload: cleanChatArray
   };
 }
-// state.chats: [id: { name: chat.name, messages: chat.messages }]
 
 // sets the current chat conversation as active chat
 export function setActiveChat(chat) {
@@ -127,11 +142,11 @@ export function addMessageToChat(chatId, message) {
   };
 }
 
-export function updateTypingInChat(isTyping, id, user) {
+export function updateTypingInChat(isTyping, chatId, user) {
   return {
     type: UPDATE_TYPING_IN_CHAT,
     isTyping,
-    id,
+    id: chatId,
     user
   };
 }
@@ -140,7 +155,14 @@ export function updateTypingInChat(isTyping, id, user) {
 export function addUserToChat(chatId, user) {
   return {
     type: ADD_USER_TO_CHAT,
-    id: chatId.id,
+    id: chatId,
     user
   };
+}
+
+export function removeUserFromChat(user) {
+  return {
+    type: REMOVE_USER_FROM_CHAT,
+    user
+  }
 }

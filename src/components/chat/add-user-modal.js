@@ -14,11 +14,11 @@ class AddUserModal extends Component {
 
   handleShow = () => {
     this.setState({ show: true });
-  }
+  };
 
   handleClose = () => {
     this.setState({ show: false });
-  }
+  };
 
   addUser(e, user) {
     const { activeChat, onAddUserToChat } = this.props

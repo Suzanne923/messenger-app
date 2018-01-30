@@ -15,17 +15,17 @@ class Messages extends Component {
     this.scrollDown = this.scrollDown.bind(this);
   }
 
-  scrollDown() {
-    const { container } = this.refs;
-    container.scrollTop = container.scrollHeight;
-  }
-
   componentDidMount() {
     this.scrollDown();
   }
 
   componentDidUpdate(prevProps, prevState) {
     this.scrollDown();
+  }
+
+  scrollDown() {
+    const { container } = this.refs;
+    container.scrollTop = container.scrollHeight;
   }
 
   render() {
@@ -64,4 +64,4 @@ class Messages extends Component {
 }
 
 
-export default Messages
+export default Messages;

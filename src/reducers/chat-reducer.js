@@ -1,11 +1,14 @@
 import {
   ADD_USER,
+  REMOVE_USER,
   ADD_CHAT,
+  REMOVE_CHAT,
   RESET_CHAT,
   SET_ACTIVE_CHAT,
   ADD_MESSAGE_TO_CHAT,
   UPDATE_TYPING_IN_CHAT,
-  ADD_USER_TO_CHAT
+  ADD_USER_TO_CHAT,
+  REMOVE_USER_FROM_CHAT
 } from '../actions/types';
 
 let newActiveChat;
@@ -16,8 +19,16 @@ export default function(state = {}, action) {
   switch(action.type) {
     case ADD_USER:
       return { ...state, users: action.users };
+    case REMOVE_USER:
+      return { ...state, users: action.users };
     case ADD_CHAT:
       return { ...state, chats: [ ...state.chats, action.payload ] };
+    case REMOVE_CHAT:
+      newChats = state.chats.filter((chat) => {
+        return (chat.id !== action.payload);
+      });
+      newActiveChat = (newChats.length > 0 ) ? newChats[0] : undefined;
+      return { ...state, chats: newChats, activeChat: newActiveChat };
     case RESET_CHAT:
     return { ...state, chats: action.payload };
     case SET_ACTIVE_CHAT:
@@ -25,7 +36,7 @@ export default function(state = {}, action) {
     case ADD_MESSAGE_TO_CHAT:
       newChats = state.chats.map((chat) => {
         if (chat.id === action.id) {
-          newChat =  { ...chat, messages: [...chat.messages, action.message] }
+          newChat =  { ...chat, messages: [ ...chat.messages, action.message ] }
           newActiveChat = (state.activeChat.id === newChat.id) ? newChat : state.activeChat;
           return newChat;
         }
@@ -36,7 +47,7 @@ export default function(state = {}, action) {
       newChats = state.chats.map((chat) => {
         if (chat.id === action.id) {
           if (action.isTyping && !chat.typingUsers.includes(action.user)) {
-            newChat =  { ...chat, typingUsers: [...chat.typingUsers, action.user] }
+            newChat =  { ...chat, typingUsers: [ ...chat.typingUsers, action.user ] }
             newActiveChat = (state.activeChat.id === newChat.id) ? newChat : state.activeChat;
             return newChat;
           } else if (!action.isTyping && chat.typingUsers.includes(action.user)) {
@@ -51,12 +62,20 @@ export default function(state = {}, action) {
     case ADD_USER_TO_CHAT:
       newChats = state.chats.map((chat) => {
         if (chat.id === action.id) {
-          newChat = { ...chat, users: [...chat.users, action.user] };
+          newChat = { ...chat, users: [ ...chat.users, action.user ] };
           newActiveChat = (state.activeChat.id === newChat.id) ? newChat : state.activeChat;
           return newChat;
         }
         return chat;
       })
+      return { ...state, chats: newChats, activeChat: newActiveChat };
+    case REMOVE_USER_FROM_CHAT:
+      newChats = state.chats.filter((chat) => {
+        let newUsers = chat.users.filter(user => (user !== action.user));
+        chat.users = newUsers;
+        newActiveChat = (state.activeChat.id === chat.id) ? chat : state.activeChat;
+        return (chat.name === "Community" || chat.users.length > 1);
+      });
       return { ...state, chats: newChats, activeChat: newActiveChat };
     default:
       return state;
