@@ -53,7 +53,6 @@
   list-style: none;
   padding-left: 0;
   min-height: 40%;
-  max-height: 50%;
   overflow: auto;
 }
 
@@ -66,8 +65,21 @@
   border-bottom: 1px solid #eeeeee;
 }
 
+.active {
+  background-color: #28a745;
+  color: white;
+}
+
+.active > .chat-info > .name, .active > .last-message {
+  color: #fff;
+}
+
 .chat-list-item:hover {
   background-color: #eeeeee;
+}
+
+.active:hover {
+  background-color: #28a745;
 }
 
 .chat-icon {
@@ -91,8 +103,7 @@
   list-style: none;
   padding-left: 0;
   border-top: 1px solid #eeeeee;
-  max-height: 50%;
-  min-height: 40%;
+  min-height: 30%;
   overflow: auto;
 }
 

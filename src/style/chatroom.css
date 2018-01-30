@@ -63,7 +63,7 @@
 
 .dropdown-list > li {
   display: block;
-  padding: 3px 16px;
+  padding: 4px 16px;
   clear: both;
   line-height: 1.4;
   white-space: nowrap;
@@ -75,7 +75,7 @@
 
 .thread-container {
   background-color: white;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: auto;
   flex: 1;
 }
@@ -89,6 +89,7 @@
   float: left;
   text-align: left;
   padding: 1em;
+  animation:.65s ease-out 0s show;
 }
 
 .message-data {
@@ -100,7 +101,7 @@
   display: flex;
 }
 
-.message-data .name {
+.message-data .message-name {
   margin-left: 3px;
 }
 
@@ -110,12 +111,13 @@
   padding: 2px 12px;
   float: left;
   color: white;
+  border-top-left-radius: 0;
 }
 
 .right {
   align-self: flex-end;
   background-color: white;
-  text-align: left;
+  text-align: right;
 }
 
 .right > .message-data {
@@ -128,12 +130,17 @@
   text-align: right;
 }
 
+.right > .message-data > .time {
+  align-self: end;
+}
+
 .right > .message {
   color: #333333;
-  background-color: #f1f0f0;
+  background-color: #DDDDDD;
   border-radius: 20px;
   padding: 2px 12px;
   float: right;
+  border-top-right-radius:0
 }
 
 .chat-input {

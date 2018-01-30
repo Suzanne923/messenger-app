@@ -36,10 +36,7 @@ class Messages extends Component {
         <div key={i} className={`message-container ${message.sender === user && 'right'}`}>
           <div className="message-data">
             <div className="time">{message.time}</div>
-            { message.sender !== user ?
-              <div className="name">{message.sender}</div>
-              : null
-            }
+            { message.sender !== user && <div className="message-name">{message.sender}</div> }
           </div>
           <div className="message">{message.message}</div>
         </div>
