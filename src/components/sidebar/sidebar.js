@@ -25,7 +25,7 @@ class SideBar extends Component {
   }
 
   render() {
-    const { user, users, chats, activeChat, onSendPrivateMessage, onSetActiveChat } = this.props;
+    const { show, user, users, chats, activeChat, onSendPrivateMessage, onSetActiveChat } = this.props;
 
     const ChatList = () => chats.map((chat, i) => {
       if (chat.name) {
@@ -55,7 +55,7 @@ class SideBar extends Component {
     });
 
     return (
-      <div className="sidebar">
+      <div className={`sidebar ${show && 'hidden'}`}>
         <div className="heading">
           <i className="cog-icon"><FaCog /></i>
           Messenger

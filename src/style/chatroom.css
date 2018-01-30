@@ -1,9 +1,26 @@
-.chatbox {
-  background-color: #DDDDDD;
-  width: 100%;
-  margin-left: 1%;
+.chat-container {
+  padding: 0;
+  display: flex;
   height: 100%;
+  background-color: #DDDDDD;
+  position: relative;
+}
+
+.left-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10%;
+  height: 100%;
+  background: rgba(255, 0, 0, 0.6);
   overflow: hidden;
+}
+
+.chat-room {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .choose {
@@ -11,22 +28,33 @@
 }
 
 .chat-header {
-  padding: 1em;
-}
-
-.chat-room {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.chat-header {
+  padding: 12px;
   text-align: left;
   position: relative;
 }
 
-.plus-icon {
+.buttons-bar {
   float: right;
+  display: flex;
+}
+
+.arrow-icon {
+  position: absolute;
+  top: 24%;
+  left: 7px;
+  padding: 0 5px;
+  font-size: 20px;
+  background-color: #149a33;
+  color: #fff;
+  cursor: pointer;
+}
+
+.arrow-icon > svg {
+  margin-top: 5px;
+  vertical-align: top !important;
+}
+
+.plus-icon {
   margin-right: 10px;
   font-size: 20px;
   color: #149a33;
@@ -34,7 +62,6 @@
 }
 
 .settings-dropdown {
-  float: right;
   position: relative;
   cursor: pointer;
   font-size: 20px;
@@ -42,7 +69,9 @@
 }
 
 .user-name {
-  float: left
+  float: left;
+  margin-left: 30px;
+  line-height: 32px;
 }
 
 .dropdown-list {
@@ -78,6 +107,7 @@
   overflow-y: auto;
   overflow-x: auto;
   flex: 1;
+  height: 100%;
 }
 
 .thread {
@@ -89,7 +119,6 @@
   float: left;
   text-align: left;
   padding: 1em;
-  animation:.65s ease-out 0s show;
 }
 
 .message-data {

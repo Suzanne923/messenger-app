@@ -7,7 +7,36 @@ html, body {
   background-color: #444444;
 }
 
+@media screen and (max-width: 991px) {
+  .sidebar {
+    min-width: 220px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .sidebar {
+    min-width: 180px;
+  }
+
+  .cog-icon {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .sidebar {
+    min-width: 150px;
+  }
+}
+
+
 .outer-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh
+}
+
+.inner-container {
   height: 100%;
   padding: 0;
 }
@@ -40,11 +69,4 @@ html, body {
 
 .register-link:hover {
   color: #28a745;
-}
-
-.chat-container {
-  width: 100%;
-  padding: 0;
-  display: flex;
-  height: 90vh;
 }

@@ -19,6 +19,13 @@ class ChatContainer extends Component {
     activeChat: {}
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      hideSidebar: false
+    }
+  }
+
   componentWillMount() {
     const { socket } = this.props;
     this.initSocket(socket);
@@ -31,6 +38,11 @@ class ChatContainer extends Component {
     socket.off(PRIVATE_MESSAGE);
     socket.off(NEW_USER_ADDED);
     socket.off(USER_REMOVED);
+  }
+
+  toggleSidebar = () => {
+    const { hideSidebar } = this.state;
+    this.setState({ hideSidebar: !hideSidebar })
   }
 
   initSocket(socket) {
@@ -134,6 +146,7 @@ class ChatContainer extends Component {
     return (
       <div className="container chat-container">
         <SideBar
+          show={this.state.hideSidebar}
           socket={socket}
           user={user}
           users={users}
@@ -142,41 +155,41 @@ class ChatContainer extends Component {
           onSendPrivateMessage={this.sendOpenPrivateMessage}
           onSetActiveChat={setActiveChat}
         />
-        <div className="chatbox">
-          {activeChat.name ? (
-            <div className="chat-room">
-              <ChatHeading
-                users={activeChat.users}
-                onAddUserToChat={this.addUserToChat}
-                onRemoveUser={this.removeUserFromChat}
-                onLeaveChat={this.leaveChat}
-              />
-              <Messages
-                user={user}
-                messages={activeChat.messages}
-                typingUsers={activeChat.typingUsers}
-              />
-              <MessageInput
-                user={user}
-                activeChat={activeChat}
-                sendMessage = {
-                  (message) => {
-                    this.sendMessage(activeChat.id, message)
-                  }
+        {activeChat.name ? (
+          <div className="chat-room">
+            <ChatHeading
+              hideSidebar={this.state.hideSidebar}
+              toggle={this.toggleSidebar}
+              users={activeChat.users}
+              onAddUserToChat={this.addUserToChat}
+              onRemoveUser={this.removeUserFromChat}
+              onLeaveChat={this.leaveChat}
+            />
+            <Messages
+              user={user}
+              messages={activeChat.messages}
+              typingUsers={activeChat.typingUsers}
+            />
+            <MessageInput
+              user={user}
+              activeChat={activeChat}
+              sendMessage = {
+                (message) => {
+                  this.sendMessage(activeChat.id, message)
                 }
-                sendTyping={
-                  (isTyping) => {
-                    this.sendTyping(activeChat.id, isTyping)
-                  }
+              }
+              sendTyping={
+                (isTyping) => {
+                  this.sendTyping(activeChat.id, isTyping)
                 }
-              />
-            </div>
-            ) :
-            <div className="chat-room choose">
-              <h4>Click on a user to start chatting!</h4>
-            </div>
-          }
-        </div>
+              }
+            />
+          </div>
+          ) :
+          <div className="chat-room choose">
+            <h4>Click on a user to start chatting!</h4>
+          </div>
+        }
       </div>
     );
   }

@@ -36,9 +36,9 @@ class Layout extends Component {
   render() {
     const { socket } = this.state;
     return (
-      <div>
+      <div className="outer-container">
         <Header socket={ socket} />
-        <div className="container outer-container">
+        <div className="container inner-container">
           <ChatContainer socket={socket} />
         </div>
       </div>
