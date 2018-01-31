@@ -102,6 +102,10 @@
   font-weight: bold;
 }
 
+.chat-info {
+  overflow: hidden;
+}
+
 .name {
   display: inline-block;
   margin-left: 1em;
@@ -129,4 +133,8 @@
   cursor: pointer;
   border-bottom: 1px solid #e5e5e5;
   color: #444;
+}
+
+.user-name {
+  overflow: hidden;
 }

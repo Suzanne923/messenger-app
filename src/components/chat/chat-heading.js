@@ -14,7 +14,7 @@ class ChatHeading extends Component {
             showSidebar ? <FaAngleLeft /> : <FaAngleRight />
           }
         </i>
-        <div className="user-name">{ users.join(', ') || "Community" }</div>
+        <div className="chat-name">{ users.join(', ') || "Community" }</div>
         <div className="buttons-bar">
           <AddUserModal onAddUserToChat={onAddUserToChat} />
           <Dropdown

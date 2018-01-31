@@ -28,16 +28,22 @@ class Messages extends Component {
     container.scrollTop = container.scrollHeight;
   }
 
+  getTime = (date) => {
+    return `${date.getHours()}:${("0" + date.getMinutes()).slice(-2)}`;
+  };
+
   render() {
     const { user, messages, typingUsers } = this.props;
 
     const MessagesList = messages.map((message, i) => {
       return (
         <div key={i} className={`message-container ${message.sender === user && 'right'}`}>
-          <div className="message-data">
-            <div className="time">{message.time}</div>
-            { message.sender !== user && <div className="message-name">{message.sender}</div> }
-          </div>
+          <div className="time">{this.getTime(new Date(Date.now()))}</div>
+          { message.sender !== user &&
+            <div className="message-name">
+              {message.sender}
+            </div>
+          }
           <div className="message">{message.message}</div>
         </div>
       );
@@ -47,13 +53,12 @@ class Messages extends Component {
       <div ref="container" className="thread-container">
         <div className="thread">
           {MessagesList}
-            {typingUsers.map(name => {
-            return (
-              <div key={name} className="typing-user">
-                {`${name} is typing...`}
-              </div>
-            );
-          })}
+          { typingUsers.length > 0 &&
+            <div className="typing-user">
+              { typingUsers.length > 1 ?
+                `${typingUsers.join(', ')} are typing...`
+              : `${typingUsers[0]} is typing...` }
+            </div> }
         </div>
       </div>
     );

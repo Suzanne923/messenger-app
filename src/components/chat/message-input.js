@@ -30,7 +30,6 @@ class MessageInput extends Component {
   sendTyping = () => {
     const { sendTyping } = this.props;
     const { isTyping } = this.state;
-    this.lastUpdateTime = Date.now();
     if(!isTyping) {
       this.setState({ isTyping: true });
       sendTyping(true);
@@ -40,7 +39,7 @@ class MessageInput extends Component {
 
   startCheckingTyping = () => {
     this.typingInterval = setInterval(() => {
-      if ((Date.now() - this.lastUpdateTime) > 1000) {
+      if (this.state.message === '') {
         this.setState({ isTyping: false });
         this.stopCheckingTyping();
       }
@@ -49,6 +48,7 @@ class MessageInput extends Component {
 
   stopCheckingTyping = () => {
     const { sendTyping } = this.props;
+
     if (this.typingInterval) {
       clearInterval(this.typingInterval);
       sendTyping(false);
@@ -71,10 +71,10 @@ class MessageInput extends Component {
             value={message}
             autoComplete={'off'}
             placeholder="Type a message"
-            onKeyUp={e => {
-              e.keyCode !== 13 && this.sendTyping() }
-            }
-            onChange={({target}) => {this.setState({message: target.value})}}
+            onChange={({target}) => {
+              this.setState({message: target.value});
+              this.sendTyping();
+            }}
           />
         <button
           disabled={message.length<1}

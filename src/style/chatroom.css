@@ -80,10 +80,11 @@
   color: #107b28;
 }
 
-.user-name {
+.chat-name {
   float: left;
   margin-left: 40px;
   line-height: 32px;
+  overflow: hidden;
 }
 
 .logout-icon {
@@ -134,20 +135,16 @@
 .message-container {
   float: left;
   text-align: left;
-  padding: 1em;
+  padding: 0.3em 0.7em;
 }
 
-.message-data {
+.message-name {
   font-size: 12px;
   line-height: 1.1;
   margin-bottom: 5px;
+  padding-left: 3px;
   overflow: hidden;
   color: #aaaaaa;
-  display: flex;
-}
-
-.message-data .message-name {
-  margin-left: 3px;
 }
 
 .message {
@@ -160,23 +157,28 @@
 }
 
 .right {
+  display: flex;
+  flex-direction: column;
   align-self: flex-end;
   background-color: white;
   text-align: right;
 }
 
-.right > .message-data {
+.right > .message-name {
   font-size: 12px;
   line-height: 1.1;
   margin-bottom: 5px;
   overflow: hidden;
-  color: #aaaaaa;
-  display: flex;
+  color: #aaa;
   text-align: right;
 }
 
-.right > .message-data > .time {
-  align-self: end;
+.time {
+  font-size: 12px;
+  line-height: 1.1;
+  margin-bottom: 5px;
+  float: left;
+  color: #aaa;
 }
 
 .right > .message {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FaSearch, FaCog } from 'react-icons/lib/fa';
 import '../../style/sidebar.css';
 import UserList from './userlist';
-import { CSSTransition, transit } from 'react-css-transition';
+import { CSSTransition } from 'react-css-transition';
 
 const transitionStyles = {
   defaultStyle: {

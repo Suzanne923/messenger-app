@@ -8,7 +8,7 @@ html, body {
 }
 
 @media screen and (max-width: 991px) {
-  .user-name {
+  .chat-name {
     margin-left: 2em;
   }
 }
@@ -22,7 +22,7 @@ html, body {
     margin-left: 3px;
   }
 
-  .user-name {
+  .chat-name {
     margin-left: 2em;
   }
 }
@@ -36,7 +36,7 @@ html, body {
     margin-left: 3px;
   }
 
-  .user-name {
+  .chat-name {
     margin-left: 2em;
   }
 
