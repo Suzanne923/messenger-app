@@ -61,9 +61,8 @@ export function reconnectUser(username, callback) {
   };
 }
 
-export function logoutUser(callback) {
+export function logoutUser() {
   localStorage.removeItem('token');
-  callback();
   return { type: UNAUTH_USER };
 }
 

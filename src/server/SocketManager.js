@@ -38,6 +38,7 @@ module.exports = function(socket) {
 
   // User logouts
   socket.on(LOGOUT, () => {
+    socket.disconnect();
     connectedUsers = removeUser(connectedUsers, socket.user.name);
     io.emit(USER_DISCONNECTED, Object.keys(connectedUsers));
     console.log('user disconnected');

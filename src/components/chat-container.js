@@ -38,6 +38,8 @@ class ChatContainer extends Component {
     socket.off(PRIVATE_MESSAGE);
     socket.off(NEW_USER_ADDED);
     socket.off(USER_REMOVED);
+    socket.off(COMMUNITY_CHAT);
+    socket.emit(LOGOUT);
   }
 
   toggleSidebar = () => {
@@ -49,6 +51,7 @@ class ChatContainer extends Component {
     socket.on(USER_CONNECTED, this.fetchUsers);
     socket.on(USER_DISCONNECTED, this.removeUser);
     socket.on('connect', () => {
+      console.log('creating community chat');
       socket.emit(COMMUNITY_CHAT, this.resetChat);
     });
     socket.on(PRIVATE_MESSAGE, this.addChat);

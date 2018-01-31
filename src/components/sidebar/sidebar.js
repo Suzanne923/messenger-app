@@ -10,7 +10,7 @@ const transitionStyles = {
     width: '0'
   },
   enterStyle: {
-    width: '50vh',
+    width: '400px',
     transition: "width 500ms ease-in-out"
   },
   leaveStyle: {
@@ -18,7 +18,7 @@ const transitionStyles = {
     transition: "width 500ms ease-in-out",
   },
   activeStyle: {
-    width: '50vh'
+    width: '400px'
   },
 };
 
@@ -76,7 +76,7 @@ class SideBar extends Component {
     //
 
     return (
-      <CSSTransition {...transitionStyles} active={this.props.show}>
+      <CSSTransition className="sidebar-container" {...transitionStyles} active={this.props.show}>
       <div className="sidebar">
         <div className={`heading ${!show ? 'hidden1' : 'shown1'}`}>
           <i className="cog-icon"><FaCog /></i>
