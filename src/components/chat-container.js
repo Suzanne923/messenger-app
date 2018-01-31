@@ -22,7 +22,7 @@ class ChatContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hideSidebar: false
+      showSidebar: true
     }
   }
 
@@ -41,8 +41,8 @@ class ChatContainer extends Component {
   }
 
   toggleSidebar = () => {
-    const { hideSidebar } = this.state;
-    this.setState({ hideSidebar: !hideSidebar })
+    const { showSidebar } = this.state;
+    this.setState({ showSidebar: !showSidebar })
   }
 
   initSocket(socket) {
@@ -146,7 +146,7 @@ class ChatContainer extends Component {
     return (
       <div className="container chat-container">
         <SideBar
-          show={this.state.hideSidebar}
+          show={this.state.showSidebar}
           socket={socket}
           user={user}
           users={users}
@@ -158,7 +158,7 @@ class ChatContainer extends Component {
         {activeChat.name ? (
           <div className="chat-room">
             <ChatHeading
-              hideSidebar={this.state.hideSidebar}
+              showSidebar={this.state.showSidebar}
               toggle={this.toggleSidebar}
               users={activeChat.users}
               onAddUserToChat={this.addUserToChat}

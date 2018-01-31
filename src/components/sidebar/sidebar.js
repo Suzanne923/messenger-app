@@ -3,6 +3,25 @@ import PropTypes from 'prop-types';
 import { FaSearch, FaCog } from 'react-icons/lib/fa';
 import '../../style/sidebar.css';
 import UserList from './userlist';
+import { CSSTransition, transit } from 'react-css-transition';
+
+const transitionStyles = {
+  defaultStyle: {
+    width: '0'
+  },
+  enterStyle: {
+    width: '50vh',
+    transition: "width 500ms ease-in-out"
+  },
+  leaveStyle: {
+    width: '0',
+    transition: "width 500ms ease-in-out",
+  },
+  activeStyle: {
+    width: '50vh'
+  },
+};
+
 
 class SideBar extends Component {
   static propTypes = {
@@ -54,13 +73,16 @@ class SideBar extends Component {
       return null;
     });
 
+    //
+
     return (
-      <div className={`sidebar ${show && 'hidden'}`}>
-        <div className="heading">
+      <CSSTransition {...transitionStyles} active={this.props.show}>
+      <div className="sidebar">
+        <div className={`heading ${!show ? 'hidden1' : 'shown1'}`}>
           <i className="cog-icon"><FaCog /></i>
-          Messenger
+          <span>Messenger</span>
         </div>
-        <form onSubmit={this.handleSubmit} className="search">
+        <form onSubmit={this.handleSubmit} className={`search ${!show ? 'hidden1' : 'shown1'}`}>
           <input
             className="search-bar"
             placeholder="Search users"
@@ -68,13 +90,14 @@ class SideBar extends Component {
           />
           <i className="search-icon"><FaSearch /></i>
         </form>
-        <p className="users">Active chats:</p>
+        <p className={`users ${!show ? 'hidden1' : 'shown1'}`}>Active chats:</p>
         <ul ref="users" className="chat-list">
           <ChatList />
         </ul>
         <p className="users">Online users:</p>
         <UserList onSendPrivateMessage={onSendPrivateMessage} user={user} users={users} chats={chats} />
       </div>
+    </CSSTransition>
     );
   }
 }

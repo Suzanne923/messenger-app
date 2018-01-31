@@ -8,24 +8,40 @@ html, body {
 }
 
 @media screen and (max-width: 991px) {
-  .sidebar {
-    min-width: 220px;
+  .user-name {
+    margin-left: 2em;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .sidebar {
-    min-width: 180px;
-  }
-
   .cog-icon {
     display: none;
+  }
+
+  .arrow-icon {
+    margin-left: 3px;
+  }
+
+  .user-name {
+    margin-left: 2em;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .sidebar {
-    min-width: 150px;
+  .outer-container {
+    height: 100vh;
+  }
+
+  .arrow-icon {
+    margin-left: 3px;
+  }
+
+  .user-name {
+    margin-left: 2em;
+  }
+
+  .plus-icon {
+    margin-right: 5px;
   }
 }
 
@@ -36,7 +52,10 @@ html, body {
 }
 
 .inner-container {
-  height: 100%;
+  height: -o-calc(100vh - 60px);
+  height: -webkit-calc(100vh - 60px);
+  height: -moz-calc(100vh - 60px);
+  height: calc(100vh - 60px);
   padding: 0;
 }
 

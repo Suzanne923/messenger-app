@@ -41,12 +41,16 @@
 .arrow-icon {
   position: absolute;
   top: 24%;
-  left: 7px;
-  padding: 0 5px;
+  left: 2%;
+  padding: 0 2px;
   font-size: 20px;
   background-color: #149a33;
   color: #fff;
   cursor: pointer;
+}
+
+.arrow-icon:hover {
+  background-color: #107b28;
 }
 
 .arrow-icon > svg {
@@ -61,6 +65,10 @@
   cursor: pointer;
 }
 
+.plus-icon:hover {
+  color: #107b28;
+}
+
 .settings-dropdown {
   position: relative;
   cursor: pointer;
@@ -68,10 +76,18 @@
   color: #149a33;
 }
 
+.settings-dropdown:hover {
+  color: #107b28;
+}
+
 .user-name {
   float: left;
-  margin-left: 30px;
+  margin-left: 40px;
   line-height: 32px;
+}
+
+.logout-icon {
+  margin-right: 5px;
 }
 
 .dropdown-list {

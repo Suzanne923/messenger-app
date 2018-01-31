@@ -1,23 +1,35 @@
 .hidden {
-  display: none;
+  width: 0px;
+}
+
+.hidden1 {
+  visibility: hidden;
+}
+
+.shown {
+  width: 250px;
+}
+
+.shown1 {
+  visibility: visible;
 }
 
 .sidebar {
-  min-width: 250px;
   background-color: white;
   color: #333333;
   height: 100%;
+  border-right: 1px solid #e5e5e5;
 }
 
 .heading {
   font-size: 16px;
-  margin: 10px 0;
+  padding: 10px 0;
   position: relative;
 }
 
 .cog-icon {
   position: absolute;
-  bottom: -2px;
+  top: 6px;
   left: 1em;
   font-size: 20px;
   color: #149a33;
@@ -42,7 +54,7 @@
 
 .search-bar {
   width: 90%;
-  background-color: #f3f3f3;
+  background-color: #f0f0f0;
   border-radius: 5px;
   border-style: none;
   font-size: 14px;
@@ -63,10 +75,9 @@
 .chat-list-item {
   text-align: left;
   padding: 1em;
-  width: 100%;
   margin: 0 auto;
   cursor: pointer;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .active {
@@ -106,7 +117,7 @@
 .user-list {
   list-style: none;
   padding-left: 0;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #e5e5e5;
   min-height: 30%;
   overflow: auto;
 }
@@ -114,9 +125,8 @@
 .user-list-item {
   text-align: left;
   padding: 0.5em 1em;
-  width: 100%;
   margin: 0 auto;
   cursor: pointer;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #e5e5e5;
   color: #444;
 }
