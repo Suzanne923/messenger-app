@@ -1,2 +1,0 @@
-- filter chats during search
-- change default-user-img url to dir path

@@ -4,6 +4,7 @@
 /node_modules
 .env
 Procfile
+todo.txt
 
 # testing
 /coverage
