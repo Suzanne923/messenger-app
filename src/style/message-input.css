@@ -1,0 +1,11 @@
+.chat-input {
+  border: 1px solid #e5e5e5;
+}
+
+.chat-input:focus {
+  outline: none;
+}
+
+.send {
+  border-radius: 0;
+}

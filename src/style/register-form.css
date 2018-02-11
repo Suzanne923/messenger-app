@@ -1,0 +1,36 @@
+.register-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 2em;
+  color: white;
+}
+
+.register-link {
+  font-size: 14px;
+  color: white;
+}
+
+.register-link:hover {
+  color: #28a745;
+}
+
+.file-input {
+  width: 100%;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  background-color: #fff;
+  color: #495057;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.file-preview {
+  margin-bottom: 1rem;
+  border-radius: .25rem;
+  border: 1px solid #ced4da;
+}
+
+.error {
+  color: red;
+}

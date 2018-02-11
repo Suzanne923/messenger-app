@@ -1,0 +1,42 @@
+.emoji-message {
+  vertical-align: sub;
+}
+
+.emoji-mart-emoji {
+  vertical-align: middle;
+}
+.emoji-picker {
+  background-color: #fff;
+  position: relative;
+  border: 1px solid #e5e5e5;
+  border-collapse: collapse;
+}
+
+.emoji-icon {
+  font-size: 26px;
+  background-color: #fff;
+  color: #495057;
+  cursor: pointer;
+  padding: 0 3px;
+}
+
+.emoji-list {
+  position: absolute;
+  bottom: 39px;
+  right: 0;
+  z-index: 1000;
+}
+.emoji-mart .emoji-mart-emoji {
+  padding: 0 !important;
+  margin: 3px;
+}
+
+.emoji-mart .emoji-mart-emoji > span {
+  height: 30px !important;
+  width: 30px !important;
+}
+
+.emoji-mart-emoji {
+  height: 26px !important;
+  width: 26px !important;
+}

@@ -4,6 +4,7 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
+  FETCH_USER,
   ADD_USER,
   REMOVE_USER,
   ADD_CHAT,
@@ -24,7 +25,7 @@ export function loginUser({ username, password }) {
       .then(response => {
         dispatch({
           type: AUTH_USER,
-          payload: username
+          username
         });
         localStorage.setItem('token', response.data.token);
         browserHistory.push('/');
@@ -35,13 +36,13 @@ export function loginUser({ username, password }) {
   };
 }
 
-export function registerUser({ username, password }) {
+export function registerUser({ username, password, fileType='', filename='', data=undefined }) {
   return function(dispatch) {
-    axios.post(`${ROOT_URL}/register`, { username, password })
+    axios.post(`${ROOT_URL}/register`, { username, password, data, filename, type: fileType })
       .then(response => {
         dispatch({
           type: AUTH_USER,
-          payload: username
+          username
         });
         localStorage.setItem('token', response.data.token);
         browserHistory.push('/');
@@ -80,25 +81,34 @@ export function fetchUser(token) {
     })
     .then(response => {
         dispatch({
-          type: AUTH_USER,
-          payload: response.data.username
+          type: FETCH_USER,
+          username: response.data.username,
+          base64: response.data.base64
         })
         browserHistory.push('/');
     });
-  }
-}
-
-export function fetchUsers(users) {
-  return {
-    type: ADD_USER,
-    users
   };
 }
 
-export function removeUser(users) {
+export function addUser(user) {
+  return function(dispatch) {
+    axios.get(`${ROOT_URL}/avatar`, {
+      headers: { authorization: user.name }
+    })
+      .then(response => {
+        user.avatar = response.data;
+        dispatch({
+          type: ADD_USER,
+          user
+        })
+      })
+  };
+}
+
+export function removeUser(user) {
   return {
     type: REMOVE_USER,
-    users
+    payload: user
   };
 }
 

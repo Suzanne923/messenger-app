@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FaSearch, FaCog } from 'react-icons/lib/fa';
-import '../../style/sidebar.css';
 import UserList from './userlist';
 import { CSSTransition } from 'react-css-transition';
+import '../../style/sidebar.css';
+
+CSSTransition.childContextTypes = {
+    //child context keys
+}
 
 const transitionStyles = {
   defaultStyle: {
     width: '0'
   },
   enterStyle: {
-    width: '400px',
+    width: '100%',
     transition: "width 500ms ease-in-out"
   },
   leaveStyle: {
     width: '0',
-    transition: "width 500ms ease-in-out",
+    transition: "width 400ms ease-in-out",
   },
   activeStyle: {
-    width: '400px'
+    width: '100%'
   },
 };
 
@@ -39,20 +43,32 @@ class SideBar extends Component {
     }
   }
 
+  handleChange = (e) => {
+    this.setState({ search: e.target.value });
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
   }
 
   render() {
     const { show, user, users, chats, activeChat, onSendPrivateMessage, onSetActiveChat } = this.props;
+    const filteredChats = this.props.chats.filter(chat => {
+      if (this.state.search !== "") {
+        console.log(chat.users);
+        return chat.users.map(u => u.name).includes(this.state.search);
+      } else {
+        return chat;
+      }
+    });
 
-    const ChatList = () => chats.map((chat, i) => {
+    const ChatList = () => filteredChats.map((chat, i) => {
       if (chat.name) {
         const lastMessage = chat.messages[chat.messages.length-1];
         let chatName;
-        chat.users.forEach((name) => {
-          if (name !== user) {
-            chatName = chatName ? chatName.concat(`, ${name}`) : name;
+        chat.users.forEach((chatuser) => {
+          if (chatuser.name !== user) {
+            chatName = chatName ? chatName.concat(`, ${chatuser.name}`) : chatuser.name;
           }
         });
         const chatSideName = chatName || "Community";
@@ -73,28 +89,28 @@ class SideBar extends Component {
       return null;
     });
 
-    //
-
     return (
-      <CSSTransition className="sidebar-container" {...transitionStyles} active={this.props.show}>
+      <CSSTransition className="sidebar-container" {...transitionStyles} active={show}>
       <div className="sidebar">
-        <div className={`heading ${!show ? 'hidden1' : 'shown1'}`}>
+        <div className="heading">
           <i className="cog-icon"><FaCog /></i>
-          <span>Messenger</span>
+          <h6 className="heading-title">Message</h6>
         </div>
-        <form onSubmit={this.handleSubmit} className={`search ${!show ? 'hidden1' : 'shown1'}`}>
+        <form onSubmit={this.handleSubmit} className="search">
           <input
             className="search-bar"
             placeholder="Search users"
             type="text"
+            value={this.state.search}
+            onChange={this.handleChange}
           />
           <i className="search-icon"><FaSearch /></i>
         </form>
-        <p className={`users ${!show ? 'hidden1' : 'shown1'}`}>Active chats:</p>
+        <p className="users">Active chats:</p>
         <ul ref="users" className="chat-list">
           <ChatList />
         </ul>
-        <p className="users">Online users:</p>
+        <p className="list-heading">Online users:</p>
         <UserList onSendPrivateMessage={onSendPrivateMessage} user={user} users={users} chats={chats} />
       </div>
     </CSSTransition>

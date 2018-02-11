@@ -1,0 +1,50 @@
+.chat-header {
+  padding: 12px;
+  text-align: left;
+  position: relative;
+  background-color: #e5e5e5;
+}
+
+.arrow-icon {
+  position: absolute;
+  top: 24%;
+  left: 2%;
+  padding: 0 2px;
+  font-size: 20px;
+  background-color: #149a33;
+  color: #fff;
+  cursor: pointer;
+}
+
+.arrow-icon:hover {
+  background-color: #107b28;
+}
+
+.arrow-icon > svg {
+  margin-top: 5px;
+  vertical-align: top !important;
+}
+
+.buttons-bar {
+  float: right;
+  display: flex;
+}
+
+.plus-icon {
+  margin-right: 10px;
+  font-size: 26px;
+  color: #149a33;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.plus-icon:hover {
+  color: #107b28;
+}
+
+.chat-name {
+  float: left;
+  margin-left: 40px;
+  line-height: 32px;
+  overflow: hidden;
+}

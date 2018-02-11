@@ -1,0 +1,14 @@
+.login-title {
+  color: white;
+  margin-bottom: 1em;
+}
+
+.login {
+  margin: 2em auto;
+  padding: 2em;
+  max-width: 400px;
+}
+
+.login-button {
+  width: 100%;
+}

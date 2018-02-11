@@ -1,0 +1,20 @@
+.user-list {
+  list-style: none;
+  padding-left: 0;
+  border-top: 1px solid #e5e5e5;
+  min-height: 30%;
+  overflow: auto;
+}
+
+.user-list-item {
+  text-align: left;
+  padding: 0.5em 1em;
+  margin: 0 auto;
+  cursor: pointer;
+  border-bottom: 1px solid #e5e5e5;
+  color: #444;
+}
+
+.user-name {
+  overflow: hidden;
+}

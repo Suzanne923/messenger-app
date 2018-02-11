@@ -1,0 +1,39 @@
+.settings-dropdown {
+  position: relative;
+  cursor: pointer;
+  font-size: 26px;
+  color: #149a33;
+  line-height: 1.2;
+}
+
+.settings-dropdown:hover {
+  color: #107b28;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  float: left;
+  min-width: 150px;
+  padding: 0;
+  color: #555;
+  font-size: 16px;
+  background-color: #fff;
+  list-style: none;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 5px 8px rgba(0,0,0,.175);
+}
+
+.dropdown-list > li {
+  display: block;
+  padding: 4px 16px;
+  clear: both;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.dropdown-list > li:hover {
+  background-color: #f2f2f2;
+}

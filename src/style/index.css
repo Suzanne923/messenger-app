@@ -6,7 +6,18 @@ html, body {
   width: 100%;
   background-color: #444444;
 }
-//1187
+
+@media screen and (max-width: 1200px) {
+  .sidebar-container {
+    max-width: 300px;
+  }
+
+  .emoji-mart .emoji-mart-emoji > span {
+    height: 30px !important;
+    width: 30px !important;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .chat-name {
     margin-left: 2em;
@@ -14,6 +25,15 @@ html, body {
 
   .sidebar-container {
     max-width: 240px;
+  }
+
+  .emoji-mart .emoji-mart-emoji {
+    margin: 5px;
+  }
+
+  .emoji-mart .emoji-mart-emoji > span {
+    height: 28px !important;
+    width: 28px !important;
   }
 }
 
@@ -32,6 +52,18 @@ html, body {
 
   .sidebar-container {
     max-width: 200px;
+  }
+
+  .emoji-list {
+    right: -67px;
+  }
+
+  .emoji-mart {
+    width: 320px !important;
+  }
+
+  .emoji-mart .emoji-mart-emoji {
+    margin: 5px;
   }
 }
 
@@ -55,49 +87,17 @@ html, body {
   .sidebar-container {
     max-width: 160px;
   }
-}
 
-.outer-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh
-}
+  .emoji-list {
+    right: -67px;
+  }
 
-.inner-container {
-  height: -o-calc(100vh - 60px);
-  height: -webkit-calc(100vh - 60px);
-  height: -moz-calc(100vh - 60px);
-  height: calc(100vh - 60px);
-  padding: 0;
-}
+  .emoji-mart {
+    width: 100vw !important;
+    max-height: 80vh;
+  }
 
-.login-title {
-  color: white;
-  margin-bottom: 1em;
-}
-
-.login {
-  margin: 2em auto;
-  padding: 2em;
-  max-width: 400px;
-}
-
-.login-button {
-  width: 100%;
-}
-
-.register-container {
-  max-width: 400px;
-  margin: auto;
-  padding: 2em;
-  color: white;
-}
-
-.register-link {
-  font-size: 14px;
-  color: white;
-}
-
-.register-link:hover {
-  color: #28a745;
+  .emoji-mart .emoji-mart-emoji {
+    margin: 5px;
+  }
 }

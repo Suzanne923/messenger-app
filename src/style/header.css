@@ -1,19 +1,47 @@
 .navbar {
   background-color: #28a745;
-  min-height: 60px;
   color: white;
+  min-height: 66px;
+}
+
+.navbar > .container {
+  display: inline-block;
+}
+
+.nav-link {
+  padding: 0;
 }
 
 .current-user {
   padding-left: 1em;
+  float: left;
+  height: 50px;
+  line-height: 50px;
 }
 
 .logout {
   text-decoration: none;
   color: white;
+  float: right;
+  height: 50px;
+  line-height: 50px;
+}
+
+.logout-icon {
+  margin-right: 5px;
 }
 
 .logout:hover {
   color: white;
   text-decoration: underline;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+  margin-top: 5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  float: left;
 }

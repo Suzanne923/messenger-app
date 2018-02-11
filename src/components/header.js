@@ -14,11 +14,16 @@ class Header extends Component {
   }
 
   render() {
-    const { user, authenticated } = this.props;
+    const { user, authenticated, base64 } = this.props;
+    const itemStyle = {
+      backgroundImage: `url(${base64})`,
+    }
+
     return (
       <div className="navbar navbar-light">
         <div className="container">
-          <div className="current-user">{user ? user : "Username"}</div>
+          <div className="avatar" style={itemStyle}></div>
+          <div className="current-user">{user}</div>
           {authenticated ?
             <Link onClick={this.handleClick} className="nav-link logout" to="/">
               <i className="logout-icon"><FaSignOut /></i>
@@ -34,7 +39,8 @@ class Header extends Component {
 function mapStateToProps(state) {
   return {
     user: state.auth.username,
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
+    base64: state.auth.base64
   };
 }
 

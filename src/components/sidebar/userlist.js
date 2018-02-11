@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../style/sidebar.css';
+import '../../style/userlist.css';
 
 class UserList extends Component {
   static defaultProps = {
@@ -10,7 +10,6 @@ class UserList extends Component {
     const { chats, onSendPrivateMessage } = this.props
     const receiver = e.currentTarget.dataset.id.toString();
     const chatNames = chats.map(c => c.name);
-    console.log(receiver, user, chatNames.indexOf(user) < 0, chatNames.indexOf(receiver) < 0);
     if (chatNames.indexOf(user) < 0 && chatNames.indexOf(receiver) < 0) {
       onSendPrivateMessage(receiver);
     }
@@ -22,12 +21,12 @@ class UserList extends Component {
       <ul className="user-list">
         {
           users.map((u, i) => {
-            if (u !== user) {
+            if (u.name !== user) {
               return (
-                <li onClick={(e) => {this.startPrivateChat(e, user)}} data-id={u} key={i}>
+                <li onClick={(e) => {this.startPrivateChat(e, user)}} data-id={u.name} key={i}>
                   <span className="dot-icon"></span>
                   <div className="user-list-item">
-                    <div className="user-name">{u}</div>
+                    <div className="user-name">{u.name}</div>
                     </div>
                 </li>
               );

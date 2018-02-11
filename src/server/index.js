@@ -12,7 +12,7 @@ const SocketManager = require ('./SocketManager');
 const router = require('./router');
 
 // App setup
-app.use(bodyParser.json({ type: '*/*' }));
+app.use(bodyParser.json({ limit:1024102420, type: '*/*' }));
 app.use(express.static(path.resolve(__dirname + '/../../build')));
 app.use(morgan('combined'));
 app.use(cors());

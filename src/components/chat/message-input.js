@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { createMessage } from '../../factories';
+import EmojiPicker from './emoji-picker';
+import '../../style/message-input.css';
 
 class MessageInput extends Component {
   constructor(props) {
@@ -19,6 +21,10 @@ class MessageInput extends Component {
     this.sendMessage();
     this.setState({message: ''});
   };
+
+  addEmoji = (emoji) => {
+    this.setState({ message: this.state.message.concat(emoji.colons) });
+  }
 
   sendMessage = () => {
     const { user, sendMessage } = this.props;
@@ -62,7 +68,7 @@ class MessageInput extends Component {
       <div className="message-input">
         <form
           onSubmit={this.handleSubmit}
-          className="message-form input-group"
+          className="input-group"
         >
           <input
             ref={"messageinput"}
@@ -76,11 +82,12 @@ class MessageInput extends Component {
               this.sendTyping();
             }}
           />
-        <button
-          disabled={message.length<1}
-          type="submit"
-          className="send btn btn-success"
-        >Send</button>
+        <EmojiPicker onClick={this.addEmoji} />
+          <button
+            disabled={message.length<1}
+            type="submit"
+            className="send btn btn-success"
+          >Send</button>
         </form>
       </div>
     );

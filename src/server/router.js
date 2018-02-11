@@ -17,8 +17,11 @@ module.exports = function(app) {
     response.sendFile(path.resolve(__dirname + '/../../build/index.html'));
   });
   app.get('/authenticate', requireAuth, function(request, response) {
-    response.send({ username: request.user.username });
+    const username = request.user.username;
+    const base64 = request.user.avatar.data;
+    response.send({ username, base64 });
   });
+  app.get('/avatar', Authentication.avatar);
   app.post('/login', requireLogin, Authentication.login);
   app.post('/register', Authentication.register);
 }

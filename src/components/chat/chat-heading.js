@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import AddUserModal from './add-user-modal'
 import Dropdown from './dropdown';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/lib/fa';
+import '../../style/chat-heading.css';
 
 class ChatHeading extends Component {
   render() {
-    const { toggle, showSidebar, users, onAddUserToChat, onRemoveUser, onLeaveChat } = this.props;
+    const { toggle, showSidebar, onAddUserToChat, onRemoveUser, onLeaveChat } = this.props;
+    const users = this.props.users.map(u => u.name);
 
     return (
       <div className="chat-header">

@@ -18,13 +18,15 @@ module.exports = function(socket) {
   // User connects to socket with username
   socket.on(USER_CONNECTED, (username) => {
     const user = createUser({ name: username, socketId: socket.id });
-    connectedUsers = addUser(connectedUsers, user);
+    if (user.name !== null) {
+      connectedUsers = addUser(connectedUsers, user);
+    }
     socket.user = user;
 
-    sendMessageToChatFromUser = sendMessageToChat(user.name);
-    sendTypingFromUser = sendTypingToChat(user.name);
+    sendMessageToChatFromUser = sendMessageToChat(user);
+    sendTypingFromUser = sendTypingToChat(user);
 
-    io.emit(USER_CONNECTED, connectedUsers);
+    io.emit(USER_CONNECTED, user, connectedUsers);
     console.log('connected users: ', Object.keys(connectedUsers));
   });
 
@@ -34,7 +36,7 @@ module.exports = function(socket) {
       connectedUsers = removeUser(connectedUsers, socket.user.name);
       io.emit(USER_DISCONNECTED, Object.keys(connectedUsers));
     }
-  })
+  });
 
   // User logouts
   socket.on(LOGOUT, () => {
@@ -42,52 +44,55 @@ module.exports = function(socket) {
     connectedUsers = removeUser(connectedUsers, socket.user.name);
     io.emit(USER_DISCONNECTED, Object.keys(connectedUsers));
     console.log('user disconnected');
-  })
+  });
 
   //Get Community Chat
   socket.on(COMMUNITY_CHAT, (callback) => {
     callback(communityChat);
-  })
+  });
 
   socket.on(MESSAGE_SENT, ({ chatId, message }) => {
     sendMessageToChatFromUser(chatId, message);
-  })
+  });
 
   socket.on(TYPING, ({ chatId, isTyping}) => {
     sendTypingFromUser(chatId, isTyping);
-  })
+  });
 
   socket.on(PRIVATE_MESSAGE, ({ receiver, sender }) => {
     if(receiver in connectedUsers) {
       const receiverSocket = connectedUsers[receiver].socketId;
-      const newChat = createChat({ name: receiver, users: [receiver, sender] });
+      const newChat = createChat({ name: receiver, users: [connectedUsers[receiver], connectedUsers[sender] ]});
       socket.to(receiverSocket).emit(PRIVATE_MESSAGE, newChat);
       socket.emit(PRIVATE_MESSAGE, newChat);
     }
-  })
+  });
 
-  socket.on(NEW_USER_ADDED, ({ receiver, activeChat}) => {
-    if (!(activeChat.users.includes(receiver))) {
-      const receiverSocket = connectedUsers[receiver].socketId;
-      socket.emit(NEW_USER_ADDED, activeChat.id, receiver);
+  socket.on(NEW_USER_ADDED, ({ newUser, activeChat}) => {
+    if (!(activeChat.users.includes(connectedUsers[newUser]))) {
+      const receiverSocket = connectedUsers[newUser].socketId;
       socket.to(receiverSocket).emit(PRIVATE_MESSAGE, activeChat);
+      activeChat.users
+        .map(u => connectedUsers[u.name])
+        .forEach(u => {
+          socket.to(u.socketId).emit(NEW_USER_ADDED, activeChat.id, connectedUsers[newUser]);
+        });
     }
-  })
+  });
 
   socket.on(USER_REMOVED, ({ user, activeChat}) => {
     if (user in connectedUsers) {
       const receiverSocket = connectedUsers[user].socketId;
       if (activeChat.id !== communityChat.id) {
         activeChat.users
-          .filter(u => u !== user)
-          .map(u => connectedUsers[u])
+          .filter(u => u.name !== user)
+          .map(u => connectedUsers[u.name])
           .forEach(u => {
             socket.to(u.socketId).emit(USER_REMOVED, user);
           });
       }
     }
-  })
-
+  });
 }
 
 function sendTypingToChat(user) {

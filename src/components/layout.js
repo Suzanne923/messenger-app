@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import * as actions from '../actions';
 import { USER_CONNECTED } from '../events';
-import ChatContainer from './chat-container';
+import ChatContainer from './chat/chat-container';
 import Header from './header';
+import '../style/layout.css';
 import '../style/index.css';
 
 const socketUrl = window.location.hostname.includes('localhost') ? 'http://localhost:3230' : `${window.location.protocol}//${window.location.hostname}`;
@@ -38,9 +39,7 @@ class Layout extends Component {
     return (
       <div className="outer-container">
         <Header socket={ socket} />
-        <div className="container inner-container">
-          <ChatContainer socket={socket} />
-        </div>
+        <ChatContainer socket={socket} />
       </div>
     );
   }

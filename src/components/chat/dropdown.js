@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FaCog } from 'react-icons/lib/fa';
+import '../../style/dropdown.css';
 
 class SettingsDropdown extends Component {
   constructor(props) {

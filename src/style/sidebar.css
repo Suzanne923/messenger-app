@@ -1,55 +1,50 @@
-.hidden {
-  width: 0px;
+.sidebar-container {
+  max-width: 340px;
+  background-color: white;
+  border-right: 1px solid #e5e5e5;
 }
 
-.hidden1 {
+.sidebar {
+  color: #444;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hidden {
+  width: 0px;
   visibility: hidden;
 }
 
 .shown {
   width: 250px;
-}
-
-.shown1 {
   visibility: visible;
 }
 
-.sidebar {
-  background-color: white;
-  color: #333333;
-  height: 100%;
-  border-right: 1px solid #e5e5e5;
+.heading {
+  position: relative;
+  font-size: 16px;
+  margin: 10px;
+  height: 30px;
 }
 
-.heading {
-  font-size: 16px;
-  padding: 10px 0;
-  position: relative;
+.heading-title {
+  margin-bottom: 0;
+  line-height: 28px;
 }
 
 .cog-icon {
-  position: absolute;
-  top: 6px;
-  left: 1em;
-  font-size: 20px;
+  font-size: 26px;
   color: #149a33;
   cursor: pointer;
+  position: absolute;
+  left: 3%;
+  line-height: 1;
 }
 
 .search {
-  margin: 0 auto;
   padding: 10px 0;
   position: relative;
   border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.search-icon {
-  background-color: #f3f3f3;
-  color: #999999;
-  position: absolute;
-  right: 20px;
-  top: 11px;
 }
 
 .search-bar {
@@ -59,10 +54,22 @@
   border-style: none;
   font-size: 14px;
   height: 30px;
+  padding-left: 3%;
+  color: #333;
 }
 
-.search-btn {
-  background: white;
+.search-icon {
+  background-color: #f3f3f3;
+  color: #999999;
+  position: absolute;
+  right: 8%;
+  top: 12px;
+}
+
+.list-heading {
+  margin-bottom: 0;
+  background-color: #e5e5e5;
+  color: #777;
 }
 
 .chat-list {
@@ -74,7 +81,7 @@
 
 .chat-list-item {
   text-align: left;
-  padding: 1em;
+  padding: 0.8em 1em;
   margin: 0 auto;
   cursor: pointer;
   border-bottom: 1px solid #e5e5e5;
@@ -109,32 +116,10 @@
 .name {
   display: inline-block;
   margin-left: 1em;
-  color: #444;
 }
 
 .last-message {
   font-size: 12px;
   color: #777777;
   margin-left: 2em;
-}
-
-.user-list {
-  list-style: none;
-  padding-left: 0;
-  border-top: 1px solid #e5e5e5;
-  min-height: 30%;
-  overflow: auto;
-}
-
-.user-list-item {
-  text-align: left;
-  padding: 0.5em 1em;
-  margin: 0 auto;
-  cursor: pointer;
-  border-bottom: 1px solid #e5e5e5;
-  color: #444;
-}
-
-.user-name {
-  overflow: hidden;
 }

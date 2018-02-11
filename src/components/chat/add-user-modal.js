@@ -4,7 +4,6 @@ import { FaPlus } from 'react-icons/lib/fa';
 import Modal from 'react-responsive-modal/lib/css';
 import 'react-responsive-modal/lib/react-responsive-modal.css';
 import '../../style/modal.css';
-import '../../style/sidebar.css';
 
 class AddUserModal extends Component {
   constructor(props) {
@@ -22,7 +21,8 @@ class AddUserModal extends Component {
 
   addUser(e, user) {
     const { activeChat, onAddUserToChat } = this.props
-    if (!activeChat.users.includes(user)) {
+    const activeChatUsers = activeChat.users.map(u => u.name);
+    if (!activeChatUsers.includes(user) && activeChat.name !== "Community") {
       const receiver = e.currentTarget.dataset.id;
       onAddUserToChat(receiver);
     }
@@ -31,19 +31,20 @@ class AddUserModal extends Component {
   render() {
     const { show } = this.state
     const { user, users, activeChat } = this.props;
+    const activeChatUsers = activeChat.users.map(u => u.name);
 
     const UserList = () => {
       return (
         <ul className="user-list">
           {
             users.map((u, i) => {
-              if (u !== user) {
+              if (u.name !== user) {
                 return (
-                  <li onClick={(e) => {this.addUser(e, u)}} data-id={u} key={i}>
+                  <li onClick={(e) => {this.addUser(e, u.name)}} data-id={u.name} key={i}>
                     <span className="dot-icon"></span>
                     <div className="user-list-item">
-                      {u}
-                      { activeChat.users.includes(u) ? <span className="added">Added</span> : null }
+                      {u.name}
+                      { activeChatUsers.includes(u) ? <span className="added">Added</span> : null }
                     </div>
 
                   </li>
