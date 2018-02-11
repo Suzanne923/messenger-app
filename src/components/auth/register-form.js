@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import * as actions from '../../actions';
 import '../../style/register-form.css';
 
-const fileMaxSize = 200000;
+const fileMaxSize = 1000000;
 const fields = ['username', 'password', 'passwordConfirm', 'file'];
 
 class RegisterForm extends Component {
@@ -68,7 +68,7 @@ class RegisterForm extends Component {
                 e.preventDefault();
                 const file = e.target.files[0];
                 if (file.size > fileMaxSize) {
-                  this.setState({ error: 'image too large (max 200kbs)' })
+                  this.setState({ error: 'image too large (max 1mb)' })
                 } else {
                   this.setState({ error: '' });
                 }
