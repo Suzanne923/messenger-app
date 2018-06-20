@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router';
+import Footer from '../footer';
 import * as actions from '../../actions';
 import '../../style/login-form.css';
 
@@ -40,6 +41,7 @@ class LoginForm extends Component {
           </form>
           <Link to="/register" className="register-link">Create an Account</Link>
         </div>
+        <Footer />
       </div>
     );
   }

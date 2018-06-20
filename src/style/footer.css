@@ -1,0 +1,23 @@
+footer {
+  padding: 1em;
+  text-align: center;
+  color: #fff;
+  background-color: #28a745;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+footer > a {
+  text-decoration: none;
+  color: #fff;
+}
+
+footer > a:hover {
+  color: #fff;
+}
+
+footer > a > svg {
+  font-size: 20px;
+  margin: 0 5px;
+}
