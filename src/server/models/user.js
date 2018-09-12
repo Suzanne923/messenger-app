@@ -1,3 +1,4 @@
+/* eslint-disable */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
@@ -29,7 +30,7 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
 
     callback(null, isMatch);
   });
-}
+};
 
 const ModelClass = mongoose.model('user', userSchema);
 

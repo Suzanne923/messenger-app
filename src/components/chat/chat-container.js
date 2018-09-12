@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { USER_CONNECTED, USER_DISCONNECTED, LOGOUT, COMMUNITY_CHAT, MESSAGE_SENT, MESSAGE_RECEIVED, TYPING,
-  PRIVATE_MESSAGE, NEW_USER_ADDED, USER_REMOVED } from '../../events';
+import {
+  USER_CONNECTED,
+  USER_DISCONNECTED,
+  LOGOUT,
+  COMMUNITY_CHAT,
+  MESSAGE_SENT,
+  MESSAGE_RECEIVED,
+  TYPING,
+  PRIVATE_MESSAGE,
+  NEW_USER_ADDED,
+  USER_REMOVED
+} from '../../events';
 
 import SideBar from '../sidebar/sidebar';
 import ChatHeading from './chat-heading';
@@ -19,9 +30,7 @@ class ChatContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      showSidebar: true
-    }
+    this.state = { showSidebar: true };
   }
 
   componentWillMount() {
@@ -42,22 +51,25 @@ class ChatContainer extends Component {
 
   toggleSidebar = () => {
     const { showSidebar } = this.state;
-    this.setState({ showSidebar: !showSidebar })
+    this.setState({ showSidebar: !showSidebar });
   };
 
   initSocket(socket) {
+    const { addUserToChat, removeUserFromChat } = this.props;
+
     socket.on(USER_CONNECTED, this.addUser);
     socket.on(USER_DISCONNECTED, this.removeUser);
     socket.on('connect', () => {
       socket.emit(COMMUNITY_CHAT, this.resetChat);
     });
     socket.on(PRIVATE_MESSAGE, this.receivedPrivateMessage);
-    socket.on(NEW_USER_ADDED, this.props.addUserToChat);
-    socket.on(USER_REMOVED, this.props.removeUserFromChat);
+    socket.on(NEW_USER_ADDED, addUserToChat);
+    socket.on(USER_REMOVED, removeUserFromChat);
   }
 
   receivedPrivateMessage = (chat) => {
     const { user, users } = this.props;
+
     if (!chat.users.map(u => u.name).includes(user)) {
       chat.users.push(users.find(u => u.name === user));
     }
@@ -66,15 +78,21 @@ class ChatContainer extends Component {
 
   addUser = (newUser, connectedUsers) => {
     const { addUser } = this.props;
-    for (let user in connectedUsers) {
+
+    Object.keys(connectedUsers).forEach((user) => {
       const currentUser = connectedUsers[user];
       addUser(currentUser);
-    }
+    });
   };
 
   removeUser = (onlineUsers) => {
-    const { removeUserFromChat, removeUser, users } = this.props;
+    const {
+      removeUserFromChat,
+      removeUser,
+      users
+    } = this.props;
     const removedUser = users.find(u => (!onlineUsers.includes(u.name)));
+
     if (removedUser) {
       removeUserFromChat(removedUser);
       removeUser(removedUser.name);
@@ -82,28 +100,45 @@ class ChatContainer extends Component {
   };
 
   leaveChat = () => {
-    const { socket, activeChat, user, removeChat } = this.props;
+    const {
+      socket,
+      activeChat,
+      user,
+      removeChat
+    } = this.props;
+
     socket.emit(USER_REMOVED, { user, activeChat });
     removeChat(activeChat);
   };
 
   addUserToChat = (newUser) => {
-    const { socket, users, activeChat, addUserToChat } = this.props;
+    const {
+      socket,
+      users,
+      activeChat,
+      addUserToChat
+    } = this.props;
+
     socket.emit(NEW_USER_ADDED, { newUser, activeChat });
     addUserToChat(activeChat.id, users.find(u => u.name === newUser));
   };
 
   removeUserFromChat = (removedUser) => {
     const { socket, activeChat } = this.props;
+
     socket.emit(USER_REMOVED, { removedUser, activeChat });
   };
 
-  resetChat = (chat) => {
-    return this.addChat(chat, true);
-  };
+  resetChat = chat => this.addChat(chat, true);
 
   addChat = (chat, reset = false) => {
-    const { socket, resetChat, setActiveChat, addChat, } = this.props;
+    const {
+      socket,
+      resetChat,
+      setActiveChat,
+      addChat
+    } = this.props;
+
     if (reset) {
       resetChat();
       setActiveChat(chat);
@@ -112,7 +147,7 @@ class ChatContainer extends Component {
 
     const messageEvent = `${MESSAGE_RECEIVED}-${chat.id}`;
     const typingEvent = `${TYPING}-${chat.id}`;
-    socket.on(messageEvent, this.addMessageToChat(chat.id))
+    socket.on(messageEvent, this.addMessageToChat(chat.id));
     socket.on(typingEvent, this.updateTypingInChat(chat.id));
   };
 
@@ -123,6 +158,7 @@ class ChatContainer extends Component {
 
   addMessageToChat = (chatId) => {
     const { addMessageToChat } = this.props;
+
     return (message) => {
       addMessageToChat(chatId, message);
     };
@@ -130,7 +166,9 @@ class ChatContainer extends Component {
 
   updateTypingInChat = (chatId) => {
     const { updateTypingInChat } = this.props;
+
     return ({ isTyping, user }) => {
+      // eslint-disable-next-line
       if (user.name !== this.props.user) {
         updateTypingInChat(isTyping, chatId, user);
       }
@@ -139,28 +177,44 @@ class ChatContainer extends Component {
 
   sendMessage = (chatId, message) => {
     const { socket } = this.props;
-    socket.emit(MESSAGE_SENT, {chatId, message});
+
+    socket.emit(MESSAGE_SENT, { chatId, message });
   };
 
   sendTyping = (chatId, isTyping) => {
     const { socket } = this.props;
-    socket.emit(TYPING, {chatId, isTyping});
+
+    socket.emit(TYPING, { chatId, isTyping });
   };
 
   logout = () => {
-    const { socket, user, logoutUser, removeUser } = this.props;
+    const {
+      socket,
+      user,
+      logoutUser,
+      removeUser
+    } = this.props;
+
     socket.emit(LOGOUT);
     removeUser(user);
     logoutUser();
   };
 
   render() {
-    const { socket, user, users, chats, activeChat, setActiveChat } = this.props;
+    const {
+      socket,
+      user,
+      users,
+      chats,
+      activeChat,
+      setActiveChat
+    } = this.props;
+    const { showSidebar } = this.state;
 
     return (
       <div className="container chat-container">
         <SideBar
-          show={this.state.showSidebar}
+          show={showSidebar}
           socket={socket}
           user={user}
           users={users}
@@ -172,7 +226,7 @@ class ChatContainer extends Component {
         {activeChat.name ? (
           <div className="chat-room">
             <ChatHeading
-              showSidebar={this.state.showSidebar}
+              showSidebar={showSidebar}
               toggle={this.toggleSidebar}
               users={activeChat.users}
               onAddUserToChat={this.addUserToChat}
@@ -188,35 +242,44 @@ class ChatContainer extends Component {
             <MessageInput
               user={user}
               activeChat={activeChat}
-              sendMessage = {
-                (message) => {
-                  this.sendMessage(activeChat.id, message)
-                }
-              }
-              sendTyping={
-                (isTyping) => {
-                  this.sendTyping(activeChat.id, isTyping)
-                }
-              }
+              sendMessage={(message) => { this.sendMessage(activeChat.id, message); }}
+              sendTyping={(isTyping) => { this.sendTyping(activeChat.id, isTyping); }}
             />
           </div>
-          ) :
+        ) : (
           <div className="chat-room choose">
             <h4>Click on a user to start chatting!</h4>
           </div>
-        }
+        )}
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.auth.username,
-    users: state.chat.users,
-    chats: state.chat.chats,
-    activeChat: state.chat.activeChat
-  };
-}
+ChatContainer.propTypes = {
+  user: PropTypes.string.isRequired,
+  users: PropTypes.arrayOf(PropTypes.any),
+  chats: PropTypes.arrayOf(PropTypes.any),
+  activeChat: PropTypes.object,
+  socket: PropTypes.object.isRequired,
+  addUserToChat: PropTypes.func.isRequired,
+  removeUserFromChat: PropTypes.func.isRequired,
+  addUser: PropTypes.func.isRequired,
+  removeUser: PropTypes.func.isRequired,
+  removeChat: PropTypes.func.isRequired,
+  resetChat: PropTypes.func.isRequired,
+  setActiveChat: PropTypes.func.isRequired,
+  addChat: PropTypes.func.isRequired,
+  addMessageToChat: PropTypes.func.isRequired,
+  updateTypingInChat: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.auth.username,
+  users: state.chat.users,
+  chats: state.chat.chats,
+  activeChat: state.chat.activeChat
+});
 
 export default connect(mapStateToProps, actions)(ChatContainer);

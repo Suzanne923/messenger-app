@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
+import { reducer as form } from 'redux-form';
 import chatReducer from './chat-reducer';
 import authReducer from './auth-reducer';
-import { reducer as form } from 'redux-form';
 
 const rootReducer = combineReducers({
   form,

@@ -1,7 +1,6 @@
-const User = require ('../models/user');
-const jwt = require ('jwt-simple');
-const config = require ('../config');
-const path = require('path');
+const jwt = require('jwt-simple');
+const config = require('../config');
+const User = require('../models/user');
 
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
@@ -19,21 +18,22 @@ exports.avatar = (req, res, next) => {
       return res.send(base64);
     }
   });
-}
+};
 
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
   // User has already had their username and password auth'd, we just need to give
   // them a token
+  console.log('sending token');
   res.send({ token: tokenForUser(req.user) });
-}
+};
 
 exports.register = (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   const avatar = {
-    data: req.body.data ||  'http://owlsmiths.com/media/default-user-image.png',
+    data: req.body.data || 'http://owlsmiths.com/media/default-user-image.png',
     contentType: req.body.type,
-    filename: req.body.filename,
+    filename: req.body.filename
   };
 
   if (!username || !password) {
@@ -56,11 +56,11 @@ exports.register = (req, res, next) => {
       avatar
     });
 
-    user.save(err => {
-      if (err) { return next(err); }
+    user.save((e) => {
+      if (e) { return next(e); }
 
       // respond to request indicating the user was created
       res.json({ token: tokenForUser(user) });
     });
   });
-}
+};

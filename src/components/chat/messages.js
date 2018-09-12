@@ -4,12 +4,6 @@ import { Emoji } from 'emoji-mart';
 import '../../style/messages.css';
 
 class Messages extends Component {
-  static propTypes = {
-    user: PropTypes.string,
-    messages: PropTypes.array,
-    typingUsers: PropTypes.array
-  }
-
   constructor(props) {
     super(props);
     this.scrollDown = this.scrollDown.bind(this);
@@ -19,7 +13,7 @@ class Messages extends Component {
     this.scrollDown();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     this.scrollDown();
   }
 
@@ -28,29 +22,29 @@ class Messages extends Component {
     container.scrollTop = container.scrollHeight;
   }
 
-  getTime = (date) => {
-    return `${date.getHours()}:${("0" + date.getMinutes()).slice(-2)}`;
-  };
+  getTime = date => `${date.getHours()}:${("0" + date.getMinutes()).slice(-2)}`;
 
   render() {
-    const { user, users, messages, typingUsers } = this.props;
+    const {
+      user,
+      users,
+      messages,
+      typingUsers
+    } = this.props;
 
     const MessagesList = messages.map((message, i) => {
       const userAvatar = users.find(u => u.name === message.sender).avatar;
-      const itemStyle = {
-        backgroundImage: `url(${userAvatar})`,
-      }
-
-      // eslint-disable-next-line
-      const regex = /\:[^\:]+\:/g;
+      const itemStyle = { backgroundImage: `url(${userAvatar})` };
+      const regex = /:[^:]+:/g;
       let messageWithEmojis;
+
       if (message.message.match(regex)) {
         const emojiNames = message.message.match(regex).map(emoji => emoji.replace(/:/g, ''));
         const messageString = message.message.replace(regex, ' ');
-        const emojis = emojiNames.map((em, i) => (
+        const emojis = emojiNames.map((em, j) => (
           <span
             className="emoji-message"
-            key={i}
+            key={j}
             dangerouslySetInnerHTML={{
               __html: messageString + Emoji({
                 html: true,
@@ -58,23 +52,23 @@ class Messages extends Component {
                 emoji: em,
                 size: 20
               })
-            }}>
-          </span>)
-        );
+            }}
+          />
+        ));
         messageWithEmojis = emojis.length > 1 ? emojis.reduce((prev, curr) => [prev, ' ', curr]) : emojis[0];
       }
 
       return (
         <div key={i} className={`message-container ${message.sender === user && 'right'}`}>
-          <div className="user-avatar" style={itemStyle}></div>
+          <div className="user-avatar" style={itemStyle} />
           <div className="message-data">
             <div className="time">{this.getTime(new Date(Date.now()))}</div>
-            { message.sender !== user &&
+            { message.sender !== user && (
               <div className="message-name">
                 {message.sender}
-              </div>
+              </div>)
             }
-            <div className="message">{messageWithEmojis ? messageWithEmojis : message.message}</div>
+            <div className="message">{messageWithEmojis || message.message}</div>
           </div>
         </div>
       );
@@ -84,16 +78,23 @@ class Messages extends Component {
       <div ref="container" className="thread-container">
         <div className="thread">
           {MessagesList}
-          { typingUsers.length > 0 &&
+          { typingUsers.length > 0 && (
             <div className="typing-user">
-              { typingUsers.length > 1 ?
-                `${typingUsers.map(u => u.name).join(', ')} are typing...`
-              : `${typingUsers[0].name} is typing...` }
-            </div> }
+              { typingUsers.length > 1
+                ? `${typingUsers.map(u => u.name).join(', ')} are typing...`
+                : `${typingUsers[0].name} is typing...` }
+            </div>)}
         </div>
       </div>
     );
   }
 }
+
+Messages.propTypes = {
+  user: PropTypes.string.isRequired,
+  users: PropTypes.arrayOf(PropTypes.any).isRequired,
+  messages: PropTypes.arrayOf(PropTypes.any).isRequired,
+  typingUsers: PropTypes.arrayOf(PropTypes.any).isRequired
+};
 
 export default Messages;

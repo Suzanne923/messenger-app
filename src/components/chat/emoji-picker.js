@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 import { FaSmileO } from 'react-icons/lib/fa';
@@ -7,10 +8,7 @@ import '../../style/emoji-picker.css';
 class EmojiPicker extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dropdownOpen: false,
-      emoji: { id: 'santa', skin: 3 }
-    }
+    this.state = { dropdownOpen: false };
   }
 
   componentDidMount() {
@@ -23,9 +21,8 @@ class EmojiPicker extends Component {
 
   toggle = () => {
     const { dropdownOpen } = this.state;
-    this.setState({
-      dropdownOpen: !dropdownOpen
-    });
+
+    this.setState({ dropdownOpen: !dropdownOpen });
   };
 
   setWrapperRef = (node) => {
@@ -34,15 +31,9 @@ class EmojiPicker extends Component {
 
   handleClickOutside = (e) => {
     if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
-      this.toggle()
+      this.toggle();
     }
   };
-
-  handleClick = () => {
-    const { onLeaveChat } = this.props;
-    onLeaveChat();
-  };
-
 
   render() {
     const { dropdownOpen } = this.state;
@@ -55,7 +46,7 @@ class EmojiPicker extends Component {
             <Picker
               set="emojione"
               emojiSize={26}
-              emojiTooltip={true}
+              emojiTooltip
               onClick={onClick}
               exclude={['flags', 'symbols']}
               perLine={8}
@@ -64,10 +55,14 @@ class EmojiPicker extends Component {
             />
           </div>
         )}
-        <i onClick={this.toggle} className="emoji-icon"><FaSmileO /></i>
+        <button type="button" onClick={this.toggle}>
+          <i className="emoji-icon"><FaSmileO /></i>
+        </button>
       </div>
-    )
+    );
   }
 }
+
+EmojiPicker.propTypes = { onClick: PropTypes.func.isRequired };
 
 export default EmojiPicker;

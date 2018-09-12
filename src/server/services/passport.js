@@ -12,9 +12,11 @@ const localLogin = new LocalStrategy(localOptions, (username, password, done) =>
     if (err) { return done(err); }
     if (!user) { return done(null, false); }
 
-    user.comparePassword(password, (err, isMatch) => {
-      if (err) { return done(err); }
-      if (!isMatch) { return done(null, false); }
+    user.comparePassword(password, (e, isMatch) => {
+      if (e) { return done(e); }
+      if (!isMatch) { console.log('wrong password'); return done(null, false); }
+
+      console.log('correct password');
 
       return done(null, user);
     });

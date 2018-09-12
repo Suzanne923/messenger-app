@@ -1,41 +1,50 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import '../../style/userlist.css';
 
 class UserList extends Component {
-  static defaultProps = {
-    users: []
-  }
-
   startPrivateChat(e, user) {
-    const { chats, onSendPrivateMessage } = this.props
+    const { chats, onSendPrivateMessage } = this.props;
     const receiver = e.currentTarget.dataset.id.toString();
     const chatNames = chats.map(c => c.name);
+
     if (chatNames.indexOf(user) < 0 && chatNames.indexOf(receiver) < 0) {
       onSendPrivateMessage(receiver);
     }
   }
 
   render() {
-    const { user, users } = this.props
+    const { user, users } = this.props;
+
     return (
       <ul className="user-list">
         {
           users.map((u, i) => {
             if (u.name !== user) {
               return (
-                <li onClick={(e) => {this.startPrivateChat(e, user)}} data-id={u.name} key={i}>
-                  <span className="dot-icon"></span>
-                  <div className="user-list-item">
-                    <div className="user-name">{u.name}</div>
+                <li data-id={u.name} key={i}>
+                  <button type="button" onClick={(e) => { this.startPrivateChat(e, user); }}>
+                    <span className="dot-icon" />
+                    <div className="user-list-item">
+                      <div className="user-name">{u.name}</div>
                     </div>
+                  </button>
                 </li>
               );
-            } else { return null; }
+            }
+            return null;
           })
         }
       </ul>
-    )
+    );
   }
 }
+
+UserList.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.any).isRequired,
+  chats: PropTypes.arrayOf(PropTypes.any).isRequired,
+  onSendPrivateMessage: PropTypes.func.isRequired,
+  user: PropTypes.string.isRequired
+};
 
 export default UserList;

@@ -4,33 +4,33 @@ import PropTypes from 'prop-types';
 
 export default function (ComposedComponent) {
   class Authentication extends Component {
-    static contextTypes = {
-      router: PropTypes.object
-    }
+    static contextTypes = { router: PropTypes.object }
 
     componentWillMount() {
       const { authenticated } = this.props;
+      const { router } = this.context;
+
       if (!authenticated) {
-        this.context.router.push('/login');
+        router.push('/login');
       }
     }
 
     componentWillUpdate(nextProps) {
+      const { router } = this.context;
+
       if (!nextProps.authenticated) {
-        this.context.router.push('/login');
+        router.push('/login');
       }
     }
 
     render() {
+      const { authenticated } = this.props;
+
       return (
         <div>
-          {
-            this.props.authenticated ?
-              <ComposedComponent {...this.props} />
-            : <div>Loading...</div>   
-          }
+          { authenticated ? <ComposedComponent {...this.props} /> : <div>Loading...</div> }
         </div>
-      )
+      );
     }
   }
 

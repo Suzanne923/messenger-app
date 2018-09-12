@@ -20,9 +20,9 @@ import {
 const ROOT_URL = window.location.hostname.includes('localhost') ? 'http://localhost:3230' : `${window.location.protocol}//${window.location.hostname}`;
 
 export function loginUser({ username, password }) {
-  return function(dispatch) {
+  return (dispatch) => {
     axios.post(`${ROOT_URL}/login`, { username, password })
-      .then(response => {
+      .then((response) => {
         dispatch({
           type: AUTH_USER,
           username
@@ -32,14 +32,26 @@ export function loginUser({ username, password }) {
       })
       .catch(() => {
         dispatch(authError('Bad Login Info'));
-      })
+      });
   };
 }
 
-export function registerUser({ username, password, fileType='', filename='', data=undefined }) {
-  return function(dispatch) {
-    axios.post(`${ROOT_URL}/register`, { username, password, data, filename, type: fileType })
-      .then(response => {
+export function registerUser({
+  username,
+  password,
+  fileType = '',
+  filename = '',
+  data = undefined
+}) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/register`, {
+      username,
+      password,
+      data,
+      filename,
+      type: fileType
+    })
+      .then((response) => {
         dispatch({
           type: AUTH_USER,
           username
@@ -47,10 +59,10 @@ export function registerUser({ username, password, fileType='', filename='', dat
         localStorage.setItem('token', response.data.token);
         browserHistory.push('/');
       })
-      .catch(response => {
+      .catch((response) => {
         console.log(response);
         dispatch(authError(response.response.data.error));
-      })
+      });
   };
 }
 
@@ -75,33 +87,30 @@ export function authError(error) {
 }
 
 export function fetchUser(token) {
-  return function(dispatch) {
-    axios.get(`${ROOT_URL}/authenticate`, {
-      headers: { authorization: token }
-    })
-    .then(response => {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/authenticate`, { headers: { authorization: token } })
+      .then((response) => {
         dispatch({
           type: FETCH_USER,
           username: response.data.username,
           base64: response.data.base64
-        })
+        });
         browserHistory.push('/');
-    });
+      });
   };
 }
 
 export function addUser(user) {
-  return function(dispatch) {
-    axios.get(`${ROOT_URL}/avatar`, {
-      headers: { authorization: user.name }
-    })
-      .then(response => {
-        user.avatar = response.data;
+  const newUser = user;
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/avatar`, { headers: { authorization: user.name } })
+      .then((response) => {
+        newUser.avatar = response.data;
         dispatch({
           type: ADD_USER,
           user
-        })
-      })
+        });
+      });
   };
 }
 
@@ -128,7 +137,7 @@ export function removeChat(chat) {
 }
 
 export function resetChat() {
-  let cleanChatArray = [];
+  const cleanChatArray = [];
   return {
     type: RESET_CHAT,
     payload: cleanChatArray
@@ -173,5 +182,5 @@ export function removeUserFromChat(user) {
   return {
     type: REMOVE_USER_FROM_CHAT,
     user
-  }
+  };
 }

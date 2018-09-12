@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import * as actions from '../actions';
@@ -13,9 +14,7 @@ const socketUrl = window.location.hostname.includes('localhost') ? 'http://local
 class Layout extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      socket: null
-    };
+    this.state = { socket: null };
   }
 
   componentWillMount() {
@@ -25,30 +24,31 @@ class Layout extends Component {
   initSocket = () => {
     const { user } = this.props;
     const { socket } = this.state;
+
     if (!socket) {
-      const socket = io(socketUrl);
-      socket.on('connect', () => {
-        socket.emit(USER_CONNECTED, user);
+      const newSocket = io(socketUrl);
+
+      newSocket.on('connect', () => {
+        newSocket.emit(USER_CONNECTED, user);
       });
-      this.setState({ socket });
+      this.setState({ socket: newSocket });
     }
   };
 
   render() {
     const { socket } = this.state;
+
     return (
       <div className="outer-container">
-        <Header socket={ socket} />
+        <Header socket={socket} />
         <ChatContainer socket={socket} />
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.auth.username,
-  };
-}
+Layout.propTypes = { user: PropTypes.string.isRequired };
+
+const mapStateToProps = state => ({ user: state.auth.username });
 
 export default connect(mapStateToProps, actions)(Layout);

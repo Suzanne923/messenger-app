@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FaCog } from 'react-icons/lib/fa';
 import '../../style/dropdown.css';
 
@@ -6,9 +7,7 @@ class SettingsDropdown extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      dropdownOpen: false
-    };
+    this.state = { dropdownOpen: false };
   }
 
   componentDidMount() {
@@ -21,9 +20,8 @@ class SettingsDropdown extends Component {
 
   toggle = () => {
     const { dropdownOpen } = this.state;
-    this.setState({
-      dropdownOpen: !dropdownOpen
-    });
+
+    this.setState({ dropdownOpen: !dropdownOpen });
   };
 
   setWrapperRef = (node) => {
@@ -32,33 +30,37 @@ class SettingsDropdown extends Component {
 
   handleClickOutside = (e) => {
     if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
-      this.toggle()
+      this.toggle();
     }
-  };
-
-  handleClick = () => {
-    this.props.onLeaveChat();
   };
 
   handleLeaveChat = () => {
     const { onLeaveChat } = this.props;
+
     onLeaveChat();
     this.toggle();
   };
 
   render() {
     const { dropdownOpen } = this.state;
+
     return (
       <div className="settings-dropdown">
         {dropdownOpen && (
           <ul ref={this.setWrapperRef} className="dropdown-list">
-            <li onClick={this.handleLeaveChat}>Leave Chat</li>
+            <li>
+              <button type="button" onClick={this.handleLeaveChat}>Leave Chat</button>
+            </li>
           </ul>
         )}
-        <i onClick={this.toggle}><FaCog /></i>
+        <button type="button" onClick={this.toggle}>
+          <i><FaCog /></i>
+        </button>
       </div>
     );
   }
 }
+
+SettingsDropdown.propTypes = { onLeaveChat: PropTypes.func.isRequired };
 
 export default SettingsDropdown;

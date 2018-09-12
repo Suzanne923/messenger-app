@@ -11,86 +11,102 @@ class RegisterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data_uri: '',
-      error: ''
-    }
+      dataUri: '',
+      errorMessage: ''
+    };
   }
 
-  handleFormSubmit({ file, password, passwordConfirm, username }) {
+  customFileInput = (field) => {
+    const fieldData = field;
+    const { errorMessage } = this.state;
+    const { meta: { touched, error } } = fieldData;
+    delete fieldData.input.value;
+    return (
+      <fieldset>
+        {/* eslint-disable-next-line */}
+        <label>Upload a user image:</label>
+        <input
+          className="file-input"
+          type="file"
+          id="file"
+          {...fieldData.input}
+          onChange={(e) => {
+            e.preventDefault();
+            const file = e.target.files[0];
+
+            if (file.size > fileMaxSize) {
+              this.setState({ errorMessage: 'image too large (max 1mb)' });
+            } else {
+              this.setState({ errorMessage: '' });
+            }
+
+            const reader = new FileReader();
+            reader.onload = (upload) => {
+              this.setState({ dataUri: upload.target.result });
+            };
+            reader.readAsDataURL(file);
+          }}
+        />
+        {touched && error && <div className="error">{error}</div>}
+        {(errorMessage !== '') && <div className="error">{errorMessage}</div>}
+      </fieldset>
+    );
+  }
+
+  handleFormSubmit({
+    file,
+    password,
+    username
+  }) {
     const { registerUser } = this.props;
     if (file) {
       const fileType = file[0].type;
       const filename = file[0].name;
-      const data = this.state.data_uri;
+      const { dataUri } = this.state;
       if (file[0].size < fileMaxSize) {
-        registerUser({ username, password, fileType, filename, data });
+        registerUser({
+          username,
+          password,
+          fileType,
+          filename,
+          dataUri
+        });
       }
     } else {
       registerUser({ username, password });
     }
-
   }
 
-  renderField = ({ input, name, label, placeholder, type, meta: { touched, error } }) => {
-    return (
-      <fieldset className="form-group">
-        { label && <label>{label}</label> }
-        <input {...input} name={name} placeholder={placeholder} type={type} className="form-control" />
-        {touched && error && <div className="error">{error}</div>}
-      </fieldset>
-    );
-  }
+  renderField = ({
+    input,
+    name,
+    label,
+    placeholder,
+    type,
+    meta: { touched, error }
+  }) => (
+    <fieldset className="form-group">
+      {/* eslint-disable-next-line */}
+      { label && <label>{label}</label> }
+      <input {...input} name={name} placeholder={placeholder} type={type} className="form-control" />
+      {touched && error && <div className="error">{error}</div>}
+    </fieldset>
+  );
 
   renderAlert = () => {
     const { errorMessage } = this.props;
     if (errorMessage) {
       return (
         <div className="alert alert-danger">
-          <strong>Oops!</strong> {errorMessage}
+          <strong>Oops!</strong>
+          {errorMessage}
         </div>
       );
     }
   }
 
-  customFileInput = (field) => {
-    const { meta: { touched, error } } = field;
-    delete field.input.value;
-    return (
-      <fieldset>
-        <label>Upload a user image:</label>
-        <input
-          className="file-input"
-          type="file"
-          id="file"
-          { ...field.input }
-            onChange={
-              (e) => {
-                e.preventDefault();
-                const file = e.target.files[0];
-                if (file.size > fileMaxSize) {
-                  this.setState({ error: 'image too large (max 1mb)' })
-                } else {
-                  this.setState({ error: '' });
-                }
-                const reader = new FileReader();
-
-                reader.onload = (upload) => {
-                  this.setState({
-                    data_uri: upload.target.result
-                  });
-                };
-                reader.readAsDataURL(file);
-              }
-            }
-        />
-      {touched && error && <div className="error">{error}</div>}
-      {(this.state.error !== '') && <div className="error">{this.state.error}</div>}
-      </fieldset>
-    );
-  }
-
   render() {
-    let { handleSubmit } = this.props;
+    const { handleSubmit } = this.props;
 
     return (
       <div className="register-container">
@@ -119,7 +135,7 @@ class RegisterForm extends Component {
             component={this.customFileInput}
           />
           {this.renderAlert()}
-          <button action="submit" className="btn btn-success">Submit</button>
+          <button type="submit" action="submit" className="btn btn-success">Submit</button>
         </form>
       </div>
     );
@@ -127,7 +143,7 @@ class RegisterForm extends Component {
 }
 
 function validate(values) {
-  let errors = {}
+  const errors = {};
 
   if (!values.username) {
     errors.username = "enter a username";

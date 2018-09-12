@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router';
@@ -17,7 +18,8 @@ class LoginForm extends Component {
     if (errorMessage) {
       return (
         <div className="alert alert-danger">
-          <strong>Oops!</strong> {errorMessage}
+          <strong>Oops!</strong>
+          {errorMessage}
         </div>
       );
     }
@@ -31,13 +33,25 @@ class LoginForm extends Component {
           <h4 className="login-title">Login to start chatting!</h4>
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
             <fieldset className="form-group">
-              <Field name="username" placeholder="Username" component="input" type="text" className="form-control" />
+              <Field
+                name="username"
+                placeholder="Username"
+                component="input"
+                type="text"
+                className="form-control"
+              />
             </fieldset>
             <fieldset className="form-group">
-              <Field name="password" placeholder="Password" component="input" type="password" className="form-control" />
+              <Field
+                name="password"
+                placeholder="Password"
+                component="input"
+                type="password"
+                className="form-control"
+              />
             </fieldset>
             {this.renderAlert()}
-            <button action="submit" className="btn btn-success login-button">Login</button>
+            <button type="submit" action="submit" className="btn btn-success login-button">Login</button>
           </form>
           <Link to="/register" className="register-link">Create an Account</Link>
         </div>
@@ -47,9 +61,15 @@ class LoginForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { errorMessage: state.auth.error };
-}
+LoginForm.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired
+};
+
+LoginForm.defaultProps = { errorMessage: '' };
+
+const mapStateToProps = state => ({ errorMessage: state.auth.error });
 
 export default reduxForm({
   form: 'loginForm',

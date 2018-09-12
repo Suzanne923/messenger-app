@@ -24,5 +24,5 @@ ReactDOM.render(
       <Route path="register" component={RegisterForm} />
       <Route path="login" component={LoginForm} />
     </Router>
-  </Provider>
-  , document.getElementById('root'));
+  </Provider>, document.getElementById('root')
+);
