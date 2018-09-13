@@ -41,10 +41,10 @@ class Messages extends Component {
       if (message.message.match(regex)) {
         const emojiNames = message.message.match(regex).map(emoji => emoji.replace(/:/g, ''));
         const messageString = message.message.replace(regex, ' ');
-        const emojis = emojiNames.map((em, j) => (
+        const emojis = emojiNames.map(em => (
           <span
             className="emoji-message"
-            key={j}
+            key={message.id}
             dangerouslySetInnerHTML={{
               __html: messageString + Emoji({
                 html: true,

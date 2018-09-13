@@ -41,7 +41,6 @@
         "render"
       ]
     }],
-    "react/no-array-index-key": "off",
     "react/no-danger": "off",
     "linebreak-style": ["error", "windows"],
     "prefer-template": "off",

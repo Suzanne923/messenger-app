@@ -41,7 +41,7 @@ class AddUserModal extends Component {
     const UserList = () => (
       <ul className="user-list">
         {
-          users.map((u, i) => {
+          users.map((u) => {
             if (u.name !== user) {
               return (
                 <li>
@@ -49,7 +49,7 @@ class AddUserModal extends Component {
                     type="button"
                     onClick={(e) => { this.addUser(e, u.name); }}
                     data-id={u.name}
-                    key={i}
+                    key={u.id}
                   >
                     <span className="dot-icon" />
                     <div className="user-list-item">

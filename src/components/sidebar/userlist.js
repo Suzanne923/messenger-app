@@ -19,10 +19,10 @@ class UserList extends Component {
     return (
       <ul className="user-list">
         {
-          users.map((u, i) => {
+          users.map((u) => {
             if (u.name !== user) {
               return (
-                <li data-id={u.name} key={i}>
+                <li data-id={u.name} key={u.id}>
                   <button type="button" onClick={(e) => { this.startPrivateChat(e, user); }}>
                     <span className="dot-icon" />
                     <div className="user-list-item">
