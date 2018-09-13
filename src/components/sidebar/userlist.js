@@ -15,26 +15,28 @@ class UserList extends Component {
 
   render() {
     const { user, users } = this.props;
+    // eslint-disable-next-line
+    const usersList = users.map((u) => {
+      return (u.name !== user) && (
+        <li key={u.id}>
+          <button
+            type="button"
+            className="add-user-btn"
+            data-id={u.name}
+            onClick={(e) => { this.startPrivateChat(e, user); }}
+          >
+            <span className="dot-icon" />
+            <div className="user-list-item">
+              <div className="user-name">{u.name}</div>
+            </div>
+          </button>
+        </li>
+      );
+    });
 
     return (
       <ul className="user-list">
-        {
-          users.map((u) => {
-            if (u.name !== user) {
-              return (
-                <li data-id={u.name} key={u.id}>
-                  <button type="button" onClick={(e) => { this.startPrivateChat(e, user); }}>
-                    <span className="dot-icon" />
-                    <div className="user-list-item">
-                      <div className="user-name">{u.name}</div>
-                    </div>
-                  </button>
-                </li>
-              );
-            }
-            return null;
-          })
-        }
+        {usersList}
       </ul>
     );
   }

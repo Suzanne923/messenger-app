@@ -26,12 +26,16 @@
   box-shadow: 0 5px 8px rgba(0,0,0,.175);
 }
 
-.dropdown-list > li {
+
+.leave-btn {
   display: block;
   padding: 4px 16px;
   clear: both;
   line-height: 1.4;
   white-space: nowrap;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
 }
 
 .dropdown-list > li:hover {

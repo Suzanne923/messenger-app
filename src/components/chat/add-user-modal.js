@@ -44,9 +44,10 @@ class AddUserModal extends Component {
           users.map((u) => {
             if (u.name !== user) {
               return (
-                <li>
+                <li key={u.id}>
                   <button
                     type="button"
+                    className="add-user-btn"
                     onClick={(e) => { this.addUser(e, u.name); }}
                     data-id={u.name}
                     key={u.id}

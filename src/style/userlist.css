@@ -1,3 +1,15 @@
+.add-user-btn {
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #f2f2f2;
+}
+
+.add-user-btn:hover {
+  background-color: #f0f0f0;
+}
+
 .user-list {
   list-style: none;
   padding-left: 0;
@@ -10,8 +22,6 @@
   text-align: left;
   padding: 0.5em 1em;
   margin: 0 auto;
-  cursor: pointer;
-  border-bottom: 1px solid #e5e5e5;
   color: #444;
 }
 

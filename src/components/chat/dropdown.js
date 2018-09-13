@@ -49,7 +49,7 @@ class SettingsDropdown extends Component {
         {dropdownOpen && (
           <ul ref={this.setWrapperRef} className="dropdown-list">
             <li>
-              <button type="button" onClick={this.handleLeaveChat}>Leave Chat</button>
+              <button type="button" className="leave-btn" onClick={this.handleLeaveChat}>Leave Chat</button>
             </li>
           </ul>
         )}
