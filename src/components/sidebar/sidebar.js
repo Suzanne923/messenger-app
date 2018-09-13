@@ -65,8 +65,8 @@ class SideBar extends Component {
         const chatSideName = chatName || "Community";
         const classNames = (activeChat && activeChat.id === chat.id) ? 'active' : '';
         return (
-          <li key={chat.id} className={`chat-list-item ${classNames}`}>
-            <button type="button" onClick={() => { onSetActiveChat(chat); }}>
+          <li key={chat.id}>
+            <button className={`chat-list-item ${classNames}`} type="button" onClick={() => { onSetActiveChat(chat); }}>
               <div className="chat-info">
                 <div className="chat-icon">{chatSideName[0].toUpperCase()}</div>
                 <div className="name">{chatSideName}</div>

@@ -20,7 +20,7 @@ class ChatHeading extends Component {
 
     return (
       <div className="chat-header">
-        <button type="button" onClick={toggle}>
+        <button className="icon-btn toggle-btn" type="button" onClick={toggle}>
           <i className="arrow-icon">
             { showSidebar ? <FaAngleLeft /> : <FaAngleRight /> }
           </i>

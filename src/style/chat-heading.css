@@ -1,50 +1,56 @@
 .chat-header {
-  padding: 12px;
+  padding: 10px;
   text-align: left;
-  position: relative;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
   background-color: #e5e5e5;
 }
 
-.arrow-icon {
-  position: absolute;
-  top: 24%;
-  left: 2%;
-  padding: 0 2px;
-  font-size: 20px;
+.icon-btn {
+  background-color: #e5e5e5;
+  border: none;
+  color: #149a33;
+  cursor: pointer;
+  border-radius: 3px;
+  margin: 0 3px;
+  padding: 4px;
+}
+
+.icon-btn > i > svg {
+  display: block;
+  margin: auto;
+  width: 26px;
+  height: 26px;
+}
+
+.icon-btn:hover {
+  color: #14872e;
+}
+
+.toggle-btn {
   background-color: #149a33;
   color: #fff;
-  cursor: pointer;
 }
 
-.arrow-icon:hover {
-  background-color: #107b28;
-}
-
-.arrow-icon > svg {
-  margin-top: 5px;
-  vertical-align: top !important;
+.toggle-btn:hover {
+  background-color: #14872e;
+  color: #fff;
 }
 
 .buttons-bar {
-  float: right;
+  margin-left: auto;
   display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.plus-icon {
-  margin-right: 10px;
-  font-size: 26px;
-  color: #149a33;
-  cursor: pointer;
-  line-height: 1.2;
-}
-
-.plus-icon:hover {
-  color: #107b28;
+.buttons-bar > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .chat-name {
-  float: left;
-  margin-left: 40px;
-  line-height: 32px;
-  overflow: hidden;
+  margin-left: 20px;
 }

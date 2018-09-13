@@ -53,7 +53,7 @@ class SettingsDropdown extends Component {
             </li>
           </ul>
         )}
-        <button type="button" onClick={this.toggle}>
+        <button className="icon-btn" type="button" onClick={this.toggle}>
           <i><FaCog /></i>
         </button>
       </div>

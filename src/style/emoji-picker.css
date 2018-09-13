@@ -10,14 +10,25 @@
   position: relative;
   border: 1px solid #e5e5e5;
   border-collapse: collapse;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.emoji-icon {
-  font-size: 26px;
+.emoji-btn {
   background-color: #fff;
   color: #495057;
   cursor: pointer;
-  padding: 0 3px;
+  border: none;
+  margin: 0 3px;
+  padding: 4px;
+}
+
+.emoji-btn > i > svg {
+  display: block;
+  margin: auto;
+  width: 26px;
+  height: 26px;
 }
 
 .emoji-list {

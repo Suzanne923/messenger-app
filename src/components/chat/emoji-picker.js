@@ -55,7 +55,7 @@ class EmojiPicker extends Component {
             />
           </div>
         )}
-        <button type="button" onClick={this.toggle}>
+        <button className="emoji-btn" type="button" onClick={this.toggle}>
           <i className="emoji-icon"><FaSmileO /></i>
         </button>
       </div>

@@ -68,7 +68,7 @@ class AddUserModal extends Component {
 
     return (
       <div>
-        <button type="button" onClick={this.handleShow}>
+        <button className="icon-btn plus-btn" type="button" onClick={this.handleShow}>
           <i className="plus-icon"><FaPlus /></i>
         </button>
         <Modal className="modal-container" showCloseIcon={false} open={show} onClose={this.handleClose} little>
