@@ -15,6 +15,7 @@ class AddUserModal extends Component {
   addUser(e, user) {
     const { activeChat, onAddUserToChat } = this.props;
     const activeChatUsers = activeChat.users.map(u => u.name);
+
     if (!activeChatUsers.includes(user) && activeChat.name !== "Community") {
       const receiver = e.currentTarget.dataset.id;
       onAddUserToChat(receiver);
@@ -38,34 +39,23 @@ class AddUserModal extends Component {
     } = this.props;
     const activeChatUsers = activeChat.users.map(u => u.name);
 
-    const UserList = () => (
-      <ul className="user-list">
-        {
-          users.map((u) => {
-            if (u.name !== user) {
-              return (
-                <li key={u.id}>
-                  <button
-                    type="button"
-                    className="add-user-btn"
-                    onClick={(e) => { this.addUser(e, u.name); }}
-                    data-id={u.name}
-                    key={u.id}
-                  >
-                    <span className="dot-icon" />
-                    <div className="user-list-item">
-                      {u.name}
-                      { activeChatUsers.includes(u) ? <span className="added">Added</span> : null }
-                    </div>
-                  </button>
-                </li>
-              );
-            }
-            return null;
-          })
-        }
-      </ul>
-    );
+    const userList = users.map(u => (u.name !== user) && (
+      <li key={u.id}>
+        <button
+          type="button"
+          className="add-user-btn"
+          onClick={(e) => { this.addUser(e, u.name); }}
+          data-id={u.name}
+          key={u.id}
+        >
+          <span className="dot-icon" />
+          <div className="user-list-item">
+            {u.name}
+            { activeChatUsers.includes(u) ? <span className="added">Added</span> : null }
+          </div>
+        </button>
+      </li>
+    ));
 
     return (
       <div>
@@ -81,7 +71,7 @@ class AddUserModal extends Component {
           <div className="modal-body">
             <p className="users">Online users:</p>
             <ul className="user-list">
-              <UserList />
+              {userList}
             </ul>
           </div>
         </Modal>

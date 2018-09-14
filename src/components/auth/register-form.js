@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm } from 'redux-form';
+
 import * as actions from '../../actions';
+import FormField from './form-field';
 import '../../style/register-form.css';
 
 const fileMaxSize = 1000000;
@@ -22,7 +24,7 @@ class RegisterForm extends Component {
     const { meta: { touched, error } } = fieldData;
     delete fieldData.input.value;
     return (
-      <fieldset>
+      <div>
         {/* eslint-disable-next-line */}
         <label>Upload a user image:</label>
         <input
@@ -49,7 +51,7 @@ class RegisterForm extends Component {
         />
         {touched && error && <div className="error">{error}</div>}
         {(errorMessage !== '') && <div className="error">{errorMessage}</div>}
-      </fieldset>
+      </div>
     );
   }
 
@@ -85,12 +87,12 @@ class RegisterForm extends Component {
     type,
     meta: { touched, error }
   }) => (
-    <fieldset className="form-group">
+    <div>
       {/* eslint-disable-next-line */}
       { label && <label>{label}</label> }
       <input {...input} name={name} placeholder={placeholder} type={type} className="form-control" />
       {touched && error && <div className="error">{error}</div>}
-    </fieldset>
+    </div>
   );
 
   renderAlert = () => {
@@ -111,25 +113,25 @@ class RegisterForm extends Component {
     return (
       <div className="register-container">
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <Field
+          <FormField
             name="username"
             placeholder="Username"
             type="text"
             component={this.renderField}
           />
-          <Field
+          <FormField
             name="password"
             placeholder="Password"
             type="password"
             component={this.renderField}
           />
-          <Field
+          <FormField
             name="passwordConfirm"
             placeholder="Confirm password"
             type="password"
             component={this.renderField}
           />
-          <Field
+          <FormField
             name="file"
             type="file"
             component={this.customFileInput}

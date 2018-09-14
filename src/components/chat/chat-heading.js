@@ -1,42 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/lib/fa';
 import AddUserModal from './add-user-modal';
 import Dropdown from './dropdown';
 import '../../style/chat-heading.css';
 
-class ChatHeading extends Component {
-  render() {
-    const {
-      users,
-      toggle,
-      showSidebar,
-      onAddUserToChat,
-      onRemoveUser,
-      onLeaveChat
-    } = this.props;
+const ChatHeading = ({
+  users,
+  toggle,
+  showSidebar,
+  onAddUserToChat,
+  onRemoveUser,
+  onLeaveChat
+}) => {
+  const chatUsers = users.map(u => u.name);
 
-    const chatUsers = users.map(u => u.name);
-
-    return (
-      <div className="chat-header">
-        <button className="icon-btn toggle-btn" type="button" onClick={toggle}>
-          <i className="arrow-icon">
-            { showSidebar ? <FaAngleLeft /> : <FaAngleRight /> }
-          </i>
-        </button>
-        <div className="chat-name">{ chatUsers.join(', ') || "Community" }</div>
-        <div className="buttons-bar">
-          <AddUserModal onAddUserToChat={onAddUserToChat} />
-          <Dropdown
-            onRemoveUser={onRemoveUser}
-            onLeaveChat={onLeaveChat}
-          />
-        </div>
+  return (
+    <div className="chat-header">
+      <button className="icon-btn toggle-btn" type="button" onClick={toggle}>
+        <i className="arrow-icon">
+          { showSidebar ? <FaAngleLeft /> : <FaAngleRight /> }
+        </i>
+      </button>
+      <div className="chat-name">{ chatUsers.join(', ') || "Community" }</div>
+      <div className="buttons-bar">
+        <AddUserModal onAddUserToChat={onAddUserToChat} />
+        <Dropdown
+          onRemoveUser={onRemoveUser}
+          onLeaveChat={onLeaveChat}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 ChatHeading.propTypes = {
   users: PropTypes.arrayOf(PropTypes.any).isRequired,

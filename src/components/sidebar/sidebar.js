@@ -20,7 +20,6 @@ const transitionStyles = {
   activeStyle: { width: '100%' }
 };
 
-
 class SideBar extends Component {
   constructor(props) {
     super(props);
@@ -54,29 +53,27 @@ class SideBar extends Component {
     });
 
     const ChatList = () => filteredChats.map((chat) => {
-      if (chat.name) {
-        const lastMessage = chat.messages[chat.messages.length - 1];
-        let chatName;
-        chat.users.forEach((chatuser) => {
-          if (chatuser.name !== user) {
-            chatName = chatName ? chatName.concat(`, ${chatuser.name}`) : chatuser.name;
-          }
-        });
-        const chatSideName = chatName || "Community";
-        const classNames = (activeChat && activeChat.id === chat.id) ? 'active' : '';
-        return (
-          <li key={chat.id}>
-            <button className={`chat-list-item ${classNames}`} type="button" onClick={() => { onSetActiveChat(chat); }}>
-              <div className="chat-info">
-                <div className="chat-icon">{chatSideName[0].toUpperCase()}</div>
-                <div className="name">{chatSideName}</div>
-              </div>
-              {lastMessage && <div className="last-message">{lastMessage.message}</div>}
-            </button>
-          </li>
-        );
-      }
-      return null;
+      const lastMessage = chat.messages[chat.messages.length - 1];
+      let chatName;
+      chat.users.forEach((chatuser) => {
+        if (chatuser.name !== user) {
+          chatName = chatName ? chatName.concat(`, ${chatuser.name}`) : chatuser.name;
+        }
+      });
+      const chatSideName = chatName || "Community";
+      const classNames = (activeChat && activeChat.id === chat.id) ? 'active' : '';
+
+      return (chat.name) && (
+        <li key={chat.id}>
+          <button className={`chat-list-item ${classNames}`} type="button" onClick={() => { onSetActiveChat(chat); }}>
+            <div className="chat-info">
+              <div className="chat-icon">{chatSideName[0].toUpperCase()}</div>
+              <div className="name">{chatSideName}</div>
+            </div>
+            {lastMessage && <div className="last-message">{lastMessage.message}</div>}
+          </button>
+        </li>
+      );
     });
 
     return (
